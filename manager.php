@@ -3,7 +3,7 @@
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
 
-<title>Retry: now accessing my own file with our queries in o8r6 (but in bookbiz file)</title>
+<title>Manager gets to do this stuff!!</title>
 <!--
     A simple stylesheet is provided so you can modify colours, fonts, etc.
 -->
@@ -81,13 +81,13 @@ function formSubmit(upc) {
         */
         $upc = $_POST["new_upc"];
         $title = $_POST["new_title"];
-	$item_type = $_POST["new_item_type"];
-	$category = $_POST["new_category"];
+		$item_type = $_POST["new_item_type"];
+		$category = $_POST["new_category"];
 
         $company = $_POST["new_company"];
-	$item_year = $_POST["new_item_year"];
-	$price = $_POST["new_price"];
-	$stock = $_POST["new_stock"];
+		$item_year = $_POST["new_item_year"];
+		$price = $_POST["new_price"];
+		$stock = $_POST["new_stock"];
           
         $stmt = $connection->prepare("INSERT INTO item (upc, title, item_type, category, company, item_year, price, stock) VALUES (?,?,?,?,?,?,?,?)");
           
@@ -101,6 +101,27 @@ function formSubmit(upc) {
           printf("<b>Error: %s.</b>\n", $stmt->error);
         } else {
           echo "<b>Successfully added ".$title."</b>";
+        }
+      } elseif (isset($_POST["submit"]) && $_POST["submit"] ==  "UPDATE") {
+       /*
+		Add input quantity to existing stock using post variables upc, qty.
+        */
+		$upc = $_POST["existing_upc"];
+		$qty = $_POST["additional_stock"];
+
+	// Prepare statement so we don't get haX0r'd.
+	$stmt = $connection->prepare("UPDATE item SET stock = stock + $qty WHERE upc = '$upc'");
+
+	// Bind parameters: this gets a warning: Number of variables doesn't match number of parameters in prepared statement
+	$stmt->bind_param("si", $upc, $qty);
+
+	//Execute the update statement
+	$stmt->execute();
+
+	if($stmt->error) {
+          printf("<b>Error: %s.</b>\n", $stmt->error);
+        } else {
+          echo "<b>Successfully increased stock for upc: ".$upc."</b>";
         }
       }
    }
@@ -197,5 +218,34 @@ function formSubmit(upc) {
         <tr><td></td><td><input type="submit" name="submit" border=0 value="ADD"></td></tr>
     </table>
 </form>
+
+
+<h2>Update stock for an existing Item</h2>
+
+<!--
+  /****************************************************
+   STEP 5: Build the form to update stock of an existing item
+   ****************************************************/
+    Use an HTML form POST to update the stock of an item, sending the parameter values back to this page.
+    Avoid Cross-site scripting (XSS) by encoding PHP_SELF using htmlspecialchars.
+
+    This is the simplest way to POST values to a web page. More complex ways involve using
+    HTML elements other than a submit button (eg. by clicking on the delete link as shown above).
+-->
+
+<form id="update" name="update" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <table border=0 cellpadding=0 cellspacing=0>
+        <tr><td>item UPC</td><td><input type="text" size=30 name="existing_upc"</td></tr>
+        <tr><td>Quantity</td><td> <input type="number" size=5 name="additional_stock"></td></tr>
+        <tr><td></td><td><input type="submit" name="submit" border=0 value="UPDATE"></td></tr>
+    </table>
+</form>
+
+
+
+
+
+
+
 </body>
 </html>
