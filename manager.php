@@ -112,9 +112,6 @@ function formSubmit(upc) {
 	// Prepare statement so we don't get haX0r'd.
 	$stmt = $connection->prepare("UPDATE item SET stock = stock + $qty WHERE upc = '$upc'");
 
-	// Bind parameters: this gets a warning: Number of variables doesn't match number of parameters in prepared statement
-	$stmt->bind_param("si", $upc, $qty);
-
 	//Execute the update statement
 	$stmt->execute();
 
@@ -209,12 +206,17 @@ function formSubmit(upc) {
     <table border=0 cellpadding=0 cellspacing=0>
         <tr><td>item UPC</td><td><input type="text" size=30 name="new_upc"</td></tr>
         <tr><td>Title</td><td><input type="text" size=30 name="new_title"</td></tr>
-	<tr><td>Type (CD or DVD)</td><td><input type="text" size=5 name="new_item_type"</td></tr>
+
+<!--	<tr><td>Type (CD or DVD)</td><td><input type="text" size=5 name="new_item_type"</td></tr>
+-->
+		<tr><td>Type</td><td><select name="new_item_type"><option value="CD">CD</option><option value="DVD">DVD</option></select></td>
+
+
 	<tr><td>Category (genre)</td><td><input type="text" size=30 name="new_category"</td></tr>
         <tr><td>Company</td><td> <input type="text" size=30 name="new_company"></td></tr>
         <tr><td>Year</td><td> <input type="number" size=5 name="new_item_year"></td></tr>
         <tr><td>Price</td><td> <input type="value" size=5 name="new_price"></td></tr>
-	<tr><td>Quantity</td><td> <input type="number" size=5 name="new_stock"></td></tr>
+	<tr><td>Quantity</td><td> <input type="number" size=5 name="new_stock" min=0></td></tr>
         <tr><td></td><td><input type="submit" name="submit" border=0 value="ADD"></td></tr>
     </table>
 </form>
