@@ -164,6 +164,6 @@ VALUES ('0receiptId12', '05-19-1999', 'cid123456780', 'cardNumber111116', '05-20
 -- Manager processes delivery
 -- user inputs: receiptID, expectedDate
 UPDATE i_order
-SET expectedDate = '11-11-2014'
+SET expectedDate = '11/11/2014'
 WHERE receiptId = '0receiptId12';
 
