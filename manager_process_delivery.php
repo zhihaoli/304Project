@@ -166,7 +166,7 @@ function formSubmit(receiptId) {
 <form id="update" name="updateDate" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table border=0 cellpadding=0 cellspacing=0>
         <tr><td>Receipt ID</td><td><input type="text" size=30 name="existing_receiptId"</td></tr>
-        <tr><td>Expected Delivery Date [mm/dd/yyyy]</td><td> <input type="text" size=10 name="new_expectedDate"></td></tr>
+        <tr><td>Expected Delivery Date</td><td> <input type="date" name="new_expectedDate"></td></tr>
         <tr><td></td><td><input type="submit" name="submit" border=0 value="PROCESS"></td></tr>
     </table>
 </form>
