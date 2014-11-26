@@ -24,7 +24,7 @@
 
 <?php
     //Connect to MySQL Localhost
-    $connection = new mysqli("localhost", "root", "", "cs304");
+    $connection = new mysqli("localhost:3306", "root", "c", "cs304store");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -337,6 +337,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 <h1>Manage CD and DVD Inventory</h1>
 <?php
+  $connection = new mysqli("localhost:3306", "root", "c", "cs304store");
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -392,22 +393,30 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
        /*
 		Add input quantity to existing stock using post variables upc, qty.
         */
-		$upc = $_POST["existing_upc"];
+		$existing_upc = $_POST["existing_upc"];
 		$qty = $_POST["additional_stock"];
 
-	// Prepare statement so we don't get haX0r'd.
-	$stmt = $connection->prepare("UPDATE item SET stock = stock + $qty WHERE upc = '$upc'");
+    // Check that this item does exist already
+    $stmt = $connection->prepare("SELECT * FROM item WHERE upc = '$existing_upc'");
+    $stmt->execute();
+    $results = $stmt->get_result();
+    $row = $results->fetch_assoc();
+    $e_upc = $row['upc'];
 
-	//Execute the update statement
-	$stmt->execute();
-
-	if($stmt->error) {
-          printf("<b>Error: %s.</b>\n", $stmt->error);
-        } else {
-          echo "<b>Successfully increased stock for upc: ".$upc."</b>";
-        }
+    if (! $e_upc) {
+      echo "Item with that UPC does not exist in our inventory. Try retyping, or add new item in above form.";          
+    } else {
+      $stmt = $connection->prepare("UPDATE item SET stock = stock + $qty WHERE upc = '$existing_upc'");
+      //Execute the update statement
+      $stmt->execute();
+      if($stmt->error) {
+        printf("<b>Error: %s.</b>\n", $stmt->error);
+      } else {
+        echo "<b>Successfully increased stock for upc: ".$existing_upc."</b>";
       }
-   }
+    }
+  }
+}
 ?>
 
 <h2>Item Titles in alphabetical order</h2>
@@ -429,7 +438,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 <?php
 
-$connection = new mysqli("localhost", "root", "", "cs304");
+$connection = new mysqli("localhost:3306", "root", "c", "cs304store");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
