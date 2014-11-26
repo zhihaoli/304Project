@@ -8,6 +8,7 @@
    This is Bruce's Code. It contains the PHP/mySQL Queries for Daily Sales Report and Top Selling Items
 -->
     <link href="bookbiz.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <h1>Daily Sales Report</h1>
 
@@ -24,7 +25,7 @@
 
 <?php
     //Connect to MySQL Localhost
-    $connection = new mysqli("localhost:3306", "root", "c", "cs304store");
+    $connection = new mysqli("localhost:3306", "root", "", "cs304");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -256,6 +257,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
           } 
         }
       }
+    }
     /****************************************************
      STEP 3: Select orders
      ****************************************************/
@@ -291,7 +293,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
         
     }
     echo "</form>";
-}
+
     // Close the connection to the database once we're done with it.
     mysqli_close($connection);
 ?>
@@ -337,7 +339,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 <h1>Manage CD and DVD Inventory</h1>
 <?php
-  $connection = new mysqli("localhost:3306", "root", "c", "cs304store");
+  $connection = new mysqli("localhost:3306", "root", "", "cs304");
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -361,20 +363,18 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
        } else {
          echo "<b>Successfully deleted ".$deleteUPC."</b>";
        }
-            
+/*    // OOPS I guess we didn't need this!! Keeping it here just in case :)
       } elseif (isset($_POST["submit"]) && $_POST["submit"] ==  "ADD") {       
-       /*
-        Add item using the post vars upc, title, item_type, category, company, item_year, price, stock.
-        */
+        // Add item using the post vars upc, title, item_type, category, company, item_year, price, stock.
         $upc = $_POST["new_upc"];
         $title = $_POST["new_title"];
-		$item_type = $_POST["new_item_type"];
-		$category = $_POST["new_category"];
+		    $item_type = $_POST["new_item_type"];
+		    $category = $_POST["new_category"];
 
         $company = $_POST["new_company"];
-		$item_year = $_POST["new_item_year"];
-		$price = $_POST["new_price"];
-		$stock = $_POST["new_stock"];
+	     	$item_year = $_POST["new_item_year"];
+		    $price = $_POST["new_price"];
+		    $stock = $_POST["new_stock"];
           
         $stmt = $connection->prepare("INSERT INTO item (upc, title, item_type, category, company, item_year, price, stock) VALUES (?,?,?,?,?,?,?,?)");
           
@@ -389,12 +389,14 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
         } else {
           echo "<b>Successfully added ".$title."</b>";
         }
-      } elseif (isset($_POST["submit"]) && $_POST["submit"] ==  "UPDATE") {
+*/        
+      } elseif (isset($_POST["submit"]) && $_POST["submit"] ==  "Add stock") {
        /*
 		Add input quantity to existing stock using post variables upc, qty.
         */
 		$existing_upc = $_POST["existing_upc"];
 		$qty = $_POST["additional_stock"];
+		$newPrice = $_POST["update_price"];
 
     // Check that this item does exist already
     $stmt = $connection->prepare("SELECT * FROM item WHERE upc = '$existing_upc'");
@@ -406,13 +408,23 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
     if (! $e_upc) {
       echo "Item with that UPC does not exist in our inventory. Try retyping, or add new item in above form.";          
     } else {
-      $stmt = $connection->prepare("UPDATE item SET stock = stock + $qty WHERE upc = '$existing_upc'");
+
+	$updatePriceQuery = "UPDATE item SET stock = stock + $qty, price = $newPrice WHERE upc = '$existing_upc'";
+	$oldPriceQuery = "UPDATE item SET stock = stock + $qty  WHERE upc = '$existing_upc'";
+
+	if ($newPrice == NULL){
+
+      	$stmt = $connection->prepare($oldPriceQuery);
+	}else{
+	 $stmt = $connection->prepare($updatePriceQuery);
+	}
+
       //Execute the update statement
       $stmt->execute();
       if($stmt->error) {
         printf("<b>Error: %s.</b>\n", $stmt->error);
       } else {
-        echo "<b>Successfully increased stock for upc: ".$existing_upc."</b>";
+        echo "<b>Successfully updated stock for upc: ".$existing_upc."</b>";
       }
     }
   }
@@ -438,7 +450,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 <?php
 
-$connection = new mysqli("localhost:3306", "root", "c", "cs304store");
+$connection = new mysqli("localhost:3306", "root", "", "cs304");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -505,6 +517,8 @@ $connection = new mysqli("localhost:3306", "root", "c", "cs304store");
     HTML elements other than a submit button (eg. by clicking on the delete link as shown above).
 -->
 
+<!-- Guess we didn't need this!
+
 <form id="add" name="add" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table border=0 cellpadding=0 cellspacing=0>
         <tr><td>UPC</td><td><input type="text" size=30 name="new_upc"</td></tr>
@@ -520,7 +534,7 @@ $connection = new mysqli("localhost:3306", "root", "c", "cs304store");
         <tr><td></td><td><input type="submit" name="submit" border=0 value="ADD"></td></tr>
     </table>
 </form>
-
+-->
 
 <h2>Update stock for an existing Item</h2>
 
@@ -537,9 +551,10 @@ $connection = new mysqli("localhost:3306", "root", "c", "cs304store");
 
 <form id="update" name="update" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table border=0 cellpadding=0 cellspacing=0>
-        <tr><td>item UPC</td><td><input type="text" size=30 name="existing_upc"</td></tr>
-        <tr><td>Quantity to Add</td><td> <input type="number" size=5 name="additional_stock"></td></tr>
-        <tr><td></td><td><input type="submit" name="submit" border=0 value="UPDATE"></td></tr>
+        <tr><td>item UPC</td><td><input type="text" size=20 name="existing_upc"</td></tr>
+        <tr><td>Quantity to Add</td><td> <input type="number" size=5 name="additional_stock"></td>
+	<tr><td>Update Price (optional)</td><td> <input type="value" size=5 name="update_price"></td>
+        <td></td><td><input type="submit" name="submit" border=0 value="Add stock"></td></tr>
     </table>
 </form>
 
