@@ -28,16 +28,16 @@
         
     }
 
-        function formSubmitDelete(upc, title) {
-        'use strict';
-        if (confirm('Are you sure you want to remove the item "' + title + '"" from your cart?')) {
-          // Set the value of a hidden HTML element in this form
-          var form = document.getElementById('cart');
-          form.upc.value = upc;
-          form.title.value = title;
-          // Post this form
-          form.submit();
-        }
+    function formSubmitDelete(upc, title) {
+      'use strict';
+      if (confirm('Are you sure you want to remove the item "' + title + '"" from your cart?')) {
+        // Set the value of a hidden HTML element in this form
+        var form = document.getElementById('cart');
+        form.upc.value = upc;
+        form.title.value = title;
+        // Post this form
+        form.submit();
+      }
     }
     </script>
     </head>
