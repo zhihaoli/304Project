@@ -3,7 +3,7 @@
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
 
-    <title>CPSC 304 Bookbiz</title>
+    <title>Customer</title>
     <!--
         A simple stylesheet is provided so you can modify colours, fonts, etc.
     -->
@@ -150,35 +150,35 @@
        }
             
       } elseif (isset($_POST["submitSearch"]) && $_POST["submitSearch"] == "SEARCH"){
-    		    echo "inside Search if uhhh";
-    		    $query = "SELECT I.upc, title, L.name, item_type, category, company, item_year, stock, price FROM item I, leadSinger L WHERE I.upc=L.upc AND (";
 
-    		    $category = $_POST['category_input'];
-    		    $title = $_POST['title_input'];
-    	     	$leadSinger = $_POST['leadSinger_input'];
+            $query = "SELECT I.upc, title, L.name, item_type, category, company, item_year, stock, price FROM item I, leadSinger L WHERE I.upc=L.upc AND (";
+
+            $category = $_POST['category_input'];
+            $title = $_POST['title_input'];
+            $leadSinger = $_POST['leadSinger_input'];
             $n = 0;
-    		    if($category != '') {
-    			   $query .= "I.category LIKE '%$category%'";
+            if($category != '') {
+             $query .= "I.category LIKE '%$category%'";
              $n++;
-    		    }
-    			
-    		    if($title != '') {
+            }
+          
+            if($title != '') {
               if ($n > 0) { 
                 $query .= " OR ";
               }
-    			   $query .= "I.title LIKE '%$title%'";
+             $query .= "I.title LIKE '%$title%'";
              $n++;
-    		    }
+            }
 
-    		    if($leadSinger != '') {
+            if($leadSinger != '') {
               if ($n > 0) { 
                 $query .= " OR ";
               }
-    			   $query .= "L.name LIKE '%$leadSinger%'";
-    		    }
+             $query .= "L.name LIKE '%$leadSinger%'";
+            }
 
-    		    $query .= ");"; 
-    		    echo $query;
+            $query .= ");"; 
+            echo $query;
 
             if (! $result = $connection->query($query)) {
               die("No results found.");
@@ -229,7 +229,7 @@
 
     <form id="search" name="search" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <table border=0 cellpadding=0 cellspacing=0>
-    	<tr><td>Title</td><td><input type="text" size=30 name="title_input"</td></tr>
+      <tr><td>Title</td><td><input type="text" size=30 name="title_input"</td></tr>
             <tr><td>Category</td><td><input type="text" size=30 name="category_input"</td></tr>
             <tr><td>Lead Singer</td><td> <input type="text" size=30 name="leadSinger_input"></td></tr>
             <tr><td></td><td><input type="submit" name="submitSearch" border=0 value="SEARCH"></td></tr>
@@ -275,31 +275,19 @@
         
     }
     echo "</form>";
-    
+       mysqli_close($connection);
 
-   mysqli_close($connection);
+
    ?>
   </table>
-  <button type="submit" name="checkout" value="CHECKOUT"> Check Out</button>
-  <table border=0 cellpadding=0 cellspacing=0>
-    <!-- Create the table column headings -->
-<h1>Order</h1>
-    <tr valign=center>
-    <td class=rowheader>Title</td>
-    <td class=rowheader>Type</td>
-    <td class=rowheader>Price</td>
-    <td class=rowheader>Quantity</td>
-    <td class=rowheader>Total</td>
-    </tr>
 
-    <?php
-      if ($_SERVER["REQUEST_METHOD"] == "POST") {
-echo "Checking out1";
-          if (isset($_POST["checkout"]) && $_POST["checkout"] == "CHECKOUT") {
-  echo "Checking out";
-}
-}
-    ?>
+  
+  <table border=0 cellpadding=0 cellspacing=0>
+    
+        <button type="button" class="btn" onclick="location.href='checkout.php'"> Check Out</button>
+
+
+    
   </table>
     </body>
     </html>
