@@ -196,9 +196,18 @@
 </form>
 
 
+
+
+
+
+
+
+
+
+
 <h2>Orders</h2>
 <!-- Set up a table to view the orders -->
-<table border=0 cellpadding=0 cellspacing=0>
+<table border=0 cellpadding=5 cellspacing=10>
 <!-- Create the table column headings -->
 
 <tr valign=center>
@@ -216,7 +225,6 @@
 
  if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-
 if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {       
        /*
         Process delivery by updating delivery item using the post vars expectedDate and receiptId
@@ -224,15 +232,28 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
         $receiptId = $_POST["existing_receiptId"];
         $expectedDate = $_POST["new_expectedDate"];
 
-        $stmt = $connection->prepare("UPDATE i_order SET expectedDate = '$expectedDate' WHERE receiptId = '$receiptId'");
-
-        // Execute the insert statement
+         // First check if receiptId is valid: it must be an existing order, otherwise: no db action + notify user
+        $stmt = $connection->prepare("SELECT * FROM i_order WHERE receiptId = '$receiptId'");
         $stmt->execute();
-          
-        if($stmt->error) {       
-          printf("<b>Error: %s.</b>\n", $stmt->error);
+
+	
+        $results = $stmt->get_result();
+
+        $row = $results->fetch_assoc();
+        $rcpt = $row['receiptId'];
+
+        if (! $rcpt) {
+          echo "Hey, that is not an existing order. You can't update an order that doesn't exist. Try again.";
         } else {
-          echo "<b>Successfully processed the order ".$receiptId." with expected delivery date ".$expectedDate."</b>";
+          $stmt = $connection->prepare("UPDATE i_order SET expectedDate = '$expectedDate' WHERE receiptId = '$receiptId'");
+          // Execute the insert statement
+          $stmt->execute();
+
+          if($stmt->error) {
+            printf("<b>Error: %s.</b>\n", $stmt->error);
+          } else {
+            echo "<b>Successfully processed the order ".$receiptId." with expected delivery date ".$expectedDate."</b>";
+          } 
         }
       }
     /****************************************************
@@ -278,6 +299,19 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 </table>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <h2>Process delivery (i.e. update expected date of delivery)</h2>
 
 <!--
@@ -304,13 +338,6 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 <h1>Manage CD and DVD Inventory</h1>
 <?php
 
-$connection = new mysqli("localhost", "root", "", "cs304");
-
-    // Check that the connection was successful, otherwise exit
-    if (mysqli_connect_errno()) {
-        printf("Connect failed: %s\n", mysqli_connect_error());
-        exit();
-    }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -502,7 +529,7 @@ $connection = new mysqli("localhost", "root", "", "cs304");
 <form id="update" name="update" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table border=0 cellpadding=0 cellspacing=0>
         <tr><td>item UPC</td><td><input type="text" size=30 name="existing_upc"</td></tr>
-        <tr><td>Quantity</td><td> <input type="number" size=5 name="additional_stock"></td></tr>
+        <tr><td>Quantity to Add</td><td> <input type="number" size=5 name="additional_stock"></td></tr>
         <tr><td></td><td><input type="submit" name="submit" border=0 value="UPDATE"></td></tr>
     </table>
 </form>

@@ -33,7 +33,7 @@ function formSubmit(receiptId) {
      STEP 1: Connect to my local db
      ****************************************************/
     // CHANGE this to connect to your own MySQL instance in the labs or on your own computer
-    $connection = new mysqli("localhost:3306", "root", "c", "cs304store");
+    $connection = new mysqli("localhost", "root", "", "cs304");
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
         printf("Connect failed: %s\n", mysqli_connect_error());
@@ -84,8 +84,6 @@ function formSubmit(receiptId) {
 
         $row = $results->fetch_assoc();
         $rcpt = $row['receiptId'];
-
-        echo "the result is '$rcpt'";
 
         if (! $rcpt) {
           echo "Hey, that is not an existing order. You can't update an order that doesn't exist. Try again.";
