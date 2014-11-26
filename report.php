@@ -25,7 +25,7 @@
 
 <?php
     //Connect to MySQL Localhost
-    $connection = new mysqli("localhost:3306", "root", "", "cs304");
+    $connection = new mysqli("localhost", "root", "", "cs304");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -339,7 +339,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 <h1>Manage CD and DVD Inventory</h1>
 <?php
-  $connection = new mysqli("localhost:3306", "root", "", "cs304");
+  $connection = new mysqli("localhost", "root", "", "cs304");
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -396,6 +396,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
         */
 		$existing_upc = $_POST["existing_upc"];
 		$qty = $_POST["additional_stock"];
+		$newPrice = $_POST["update_price"];
 
     // Check that this item does exist already
     $stmt = $connection->prepare("SELECT * FROM item WHERE upc = '$existing_upc'");
@@ -407,7 +408,17 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
     if (! $e_upc) {
       echo "Item with that UPC does not exist in our inventory. Try retyping, or add new item in above form.";          
     } else {
-      $stmt = $connection->prepare("UPDATE item SET stock = stock + $qty WHERE upc = '$existing_upc'");
+
+	$updatePriceQuery = "UPDATE item SET stock = stock + $qty, price = $newPrice WHERE upc = '$existing_upc'";
+	$oldPriceQuery = "UPDATE item SET stock = stock + $qty  WHERE upc = '$existing_upc'";
+
+	if ($newPrice == NULL){
+
+      	$stmt = $connection->prepare($oldPriceQuery);
+	}else{
+	 $stmt = $connection->prepare($updatePriceQuery);
+	}
+
       //Execute the update statement
       $stmt->execute();
       if($stmt->error) {
@@ -439,7 +450,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 <?php
 
-$connection = new mysqli("localhost:3306", "root", "", "cs304");
+$connection = new mysqli("localhost", "root", "", "cs304");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -542,6 +553,7 @@ $connection = new mysqli("localhost:3306", "root", "", "cs304");
     <table border=0 cellpadding=0 cellspacing=0>
         <tr><td>item UPC</td><td><input type="text" size=20 name="existing_upc"</td></tr>
         <tr><td>Quantity to Add</td><td> <input type="number" size=5 name="additional_stock"></td>
+	<tr><td>Update Price (optional)</td><td> <input type="number" size=5 name="update_price"></td>
         <td></td><td><input type="submit" name="submit" border=0 value="Add stock"></td></tr>
     </table>
 </form>
