@@ -1,0 +1,585 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>Godmode</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/Godmode.css" rel="stylesheet">
+</head>
+<body>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body" id="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="HomePage.html">Allegro Music Store</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Clerk</a></li>
+                    <li><a href="#">Customer</a></li>
+                    <li><a href="#">Manager</a></li>
+                    <li class="active"><a href="#Godmode.html">TA Godmode</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="panel panel-body">
+            <div class="starter-template">
+                <h1>TA Godmode</h1>
+                <p class="lead">Page where you can insert, delete, or view the contents of any table. <br />
+                </p>
+            </div>
+            <div class="col-md-9 main">
+                <div class="panel-group" id="accordion1">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+                                Item
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion11">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="" id="btnItem_select">
+                                            View »
+                                        </a>
+                                        <div id="collapseOneOne" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseOneTwo">
+                                            Insert »
+                                        </a>
+                                        <div id="collapseOneTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+
+                                                <form role="form" id="item_insert" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_upc">UPC&nbsp;</label>
+                                                        <input type="text" id="new_item_upc" class="form-control" /><br/>
+                                                        <label for="new_title">Title&nbsp;</label>
+                                                        <input type="Type" id="new_item_title" class="form-control" /><br/>
+                                                        <label for="new_item_type">Type&nbsp;</label>
+                                                        <input type="Type" id="new_item_type" class="form-control" /><br/>
+                                                        <label for="new_category">Category&nbsp;</label>
+                                                        <input type="text" id="new_item_category" class="form-control" /><br/>
+                                                        <label for="new_company">Company&nbsp;</label>
+                                                        <input type="text" id="new_item_company" class="form-control" /><br />
+                                                        <label for="new_year">Year&nbsp;</label>
+                                                        <input type="text" id="new_item_year" class="form-control" /><br />
+                                                        <label for="new_price">Price&nbsp;</label>
+                                                        <input type="text" id="new_item_price" class="form-control" /><br />
+                                                        <label for="new_stock">Stock&nbsp;</label>
+                                                        <input type="text" id="new_item_stock" class="form-control" /><br />
+                                                        <button type="button" class="btn btn-success" id="btnItem_insert">Insert</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseOneThree">
+                                            Delete »
+                                        </a>
+                                        <div id="collapseOneThree" class="panel-collapse collapse">
+                                            <div class="panel-body">
+
+                                                <form role="form" id="item_delete" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_upc">UPC&nbsp;</label>
+                                                        <input type="text" id="del_item_upc" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-warning" id="btnItem_delete">Delete</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo">
+                                LeadSinger
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion21">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="" id="btnLeadSinger_select">
+                                            View »
+                                        </a>
+                                    </div>
+                                    <div class="panel ">
+                                        <a data-toggle="collapse" href="#collapseTwoTwo">
+                                            Insert »
+                                        </a>
+                                        <div id="collapseTwoTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+
+                                                <form role="form" id="leadSinger_insert" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_upc">UPC&nbsp;</label>
+                                                        <input type="text" id="new_leadSinger_upc" class="form-control" /><br/>
+                                                        <label for="new_title">Name&nbsp;</label>
+                                                        <input type="Type" id="new_leadSinger_name" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-success" id="btnLeadSinger_insert">Insert</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel ">
+                                        <a data-toggle="collapse" href="#collapseTwoThree">
+                                            Delete »
+                                        </a>
+                                        <div id="collapseTwoThree" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="leadSinger_delete" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="del_leadSinger_upc">UPC&nbsp;</label>
+                                                        <input type="text" id="del_leadSinger_upc" class="form-control" /><br/>
+                                                        <label for="del_leadSinger_name">Name&nbsp;</label>
+                                                        <input type="text" id="del_leadSinger_name" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-warning" id="btnLeadSinger_delete">Delete</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseThree">
+                                HasSong
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion31">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#" id="btnHasSong_select">
+                                            View »
+                                        </a>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseThreeTwo">
+                                            Insert »
+                                        </a>
+                                        <div id="collapseThreeTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="hasSong_insert" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_hasSong_upc">UPC&nbsp;</label>
+                                                        <input type="text" id="new_hasSong_upc" class="form-control" /><br/>
+                                                        <label for="new_hasSong_title">Title&nbsp;</label>
+                                                        <input type="Type" id="new_hasSong_title" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-success" id="btnHasSong_insert">Insert</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseThreeThree">
+                                            Delete »
+                                        </a>
+                                        <div id="collapseThreeThree" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="hasSong_delete" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="del_hasSong_upc">UPC&nbsp;</label>
+                                                        <input type="text" id="del_hasSong_upc" class="form-control" /><br/>
+                                                        <label for="del_hasSong_title">Title&nbsp;</label>
+                                                        <input type="text" id="del_hasSong_title" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-warning" id="btnHasSong_delete">Delete</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseFour">
+                                Order
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion41">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#" id="btnOrder_select">
+                                            View »
+                                        </a>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseFourTwo">
+                                            Insert »
+                                        </a>
+                                        <div id="collapseFourTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+
+                                                <form role="form" id="order_insert" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_order_receiptId">Receipt ID&nbsp;</label>
+                                                        <input type="text" id="new_order_receiptId" class="form-control" /><br/>
+                                                        <label for="new_order_orderDate">Order Date&nbsp;</label>
+                                                        <input type="Type" id="new_order_orderDate" class="form-control" /><br/>
+                                                        <label for="new_order_cid">CID&nbsp;</label>
+                                                        <input type="Type" id="new_order_cid" class="form-control" /><br/>
+                                                        <label for="new_order_cardNumber">Card Number&nbsp;</label>
+                                                        <input type="text" id="new_order_cardNumber" class="form-control" /><br/>
+                                                        <label for="new_order_expiryDate">Expiry Date&nbsp;</label>
+                                                        <input type="text" id="new_order_expiryDate" class="form-control" /><br />
+                                                        <label for="new_order_expectedDate">Expected Date&nbsp;</label>
+                                                        <input type="text" id="new_order_expectedDate" class="form-control" /><br />
+                                                        <label for="new_order_deliveredDate">Delievered Date&nbsp;</label>
+                                                        <input type="text" id="new_order_deliveredDate" class="form-control" /><br />
+                                                        <button type="button" class="btn btn-success" id="btnOrder_insert">Insert</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseFourThree">
+                                            Delete »
+                                        </a>
+                                        <div id="collapseFourThree" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="order_delete" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="del_order_receiptId">Receipt ID&nbsp;</label>
+                                                        <input type="text" id="del_order_receiptId" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-warning" id="btnOrder_delete">Delete</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseFive">
+                                PurchaseItem
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFive" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion51">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#" id="btnPurchaseItem_select">
+                                            View »
+                                        </a>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseFiveTwo">
+                                            Insert »
+                                        </a>
+                                        <div id="collapseFiveTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="purchaseItem_insert" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_purchaseItem_receiptId">Receipt ID&nbsp;</label>
+                                                        <input type="text" id="new_purchaseItem_receiptId" class="form-control" /><br/>
+                                                        <label for="new_purchaseItem_upc">UPC&nbsp;</label>
+                                                        <input type="Type" id="new_purchaseItem_upc" class="form-control" /><br/>
+                                                        <label for="new_purchaseItem_quantity">Quantity&nbsp;</label>
+                                                        <input type="Type" id="new_purchaseItem_quantity" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-success" id="btnPurchaseItem_insert">Insert</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseFiveThree">
+                                            Delete »
+                                        </a>
+                                        <div id="collapseFiveThree" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="purchaseItem_delete" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="del_purchaseItem_receiptId">Receipt ID&nbsp;</label>
+                                                        <input type="text" id="del_purchaseItem_receiptId" class="form-control" /><br/>
+                                                        <label for="del_purchaseItem_upc">UPC&nbsp;</label>
+                                                        <input type="text" id="del_purchaseItem_upc" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-warning" id="btnPurchaseItem_delete">Delete</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseSix">
+                                Customer
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseSix" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion61">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#" id="btnCustomer_select">
+                                            View »
+                                        </a>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseSixTwo">
+                                            Insert »
+                                        </a>
+                                        <div id="collapseSixTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="customer_insert" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_customer_cid">CID&nbsp;</label>
+                                                        <input type="text" id="new_customer_cid" class="form-control" /><br/>
+                                                        <label for="new_customer_password">Password&nbsp;</label>
+                                                        <input type="Type" id="new_customer_password" class="form-control" /><br/>
+                                                        <label for="new_customer_name">Name&nbsp;</label>
+                                                        <input type="Type" id="new_customer_name" class="form-control" /><br/>
+                                                        <label for="new_customer_address">Address&nbsp;</label>
+                                                        <input type="Type" id="new_customer_address" class="form-control" /><br/>
+                                                        <label for="new_customer_phone">Phone&nbsp;</label>
+                                                        <input type="Type" id="new_customer_phone" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-success" id="btnCustomer_insert">Insert</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseSixThree">
+                                            Delete »
+                                        </a>
+                                        <div id="collapseSixThree" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="customer_delete" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="del_customer_cid">CID&nbsp;</label>
+                                                        <input type="text" id="del_customer_cid" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-warning" id="btnCustomer_delete">Delete</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseSeven">
+                                Return
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseSeven" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion71">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#" id="btnReturn_select">
+                                            View »
+                                        </a>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseSevenTwo">
+                                            Insert »
+                                        </a>
+                                        <div id="collapseSevenTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+
+                                                <form role="form" id="return_insert" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_return_retid">RetID&nbsp;</label>
+                                                        <input type="text" id="new_return_retid" class="form-control" /><br/>
+                                                        <label for="new_return_returnDate">Return Date&nbsp;</label>
+                                                        <input type="Type" id="new_return_returnDate" class="form-control" /><br/>
+                                                        <label for="new_return_receiptId">Receipt ID&nbsp;</label>
+                                                        <input type="Type" id="new_return_receiptId" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-success" id="btnReturn_insert">Insert</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseSevenThree">
+                                            Delete »
+                                        </a>
+                                        <div id="collapseSevenThree" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="customer_delete" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="del_return_retid">RetID&nbsp;</label>
+                                                        <input type="text" id="del_return_retid" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-warning" id="btnReturn_delete">Delete</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseEight">
+                                ReturnItem
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseEight" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion81">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#" id="btnReturnItem_select">
+                                            View »
+                                        </a>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseEightTwo">
+                                            Insert »
+                                        </a>
+                                        <div id="collapseEightTwo" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                
+                                                <form role="form" id="returnItem_insert" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="new_returnItem_retid">RetID&nbsp;</label>
+                                                        <input type="text" id="new_returnItem_retid" class="form-control" /><br/>
+                                                        <label for="new_returnItem_upc">UPC&nbsp;</label>
+                                                        <input type="Type" id="new_returnItem_upc" class="form-control" /><br/>
+                                                        <label for="new_returnItem_quantity">Quantity&nbsp;</label>
+                                                        <input type="Type" id="new_returnItem_quantity" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-success" id="btnReturnItem_insert">Insert</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <a data-toggle="collapse" href="#collapseEightThree">
+                                            Delete »
+                                        </a>
+                                        <div id="collapseEightThree" class="panel-collapse collapse">
+                                            <div class="panel-body">
+
+                                                <form role="form" id="returnItem_delete" method="post">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="del_returnItem_retid">RetID&nbsp;</label>
+                                                        <input type="text" id="del_returnItem_retid" class="form-control" /><br/>
+                                                        <button type="button" class="btn btn-warning" id="btnReturnItem_delete">Delete</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/Godmode.js"></script>
+</body>
+</html>
