@@ -44,7 +44,7 @@ function formSubmit(receiptId) {
      Next, we detect what the user did to arrive at this page
      There are 3 possibilities 1) the first visit or a refresh,
      2) by clicking the Delete link beside an item's row, or
-     3) by clicking the bottom "Update delivery" button to process delivery record
+     3) by clicking the bottom "PROCESS" button to process delivery record
      
      NOTE We are using POST superglobal to safely pass parameters
         (as opposed to URL parameters or GET)
@@ -77,15 +77,28 @@ function formSubmit(receiptId) {
         $receiptId = $_POST["existing_receiptId"];
         $expectedDate = $_POST["new_expectedDate"];
 
-        $stmt = $connection->prepare("UPDATE i_order SET expectedDate = '$expectedDate' WHERE receiptId = '$receiptId'");
-
-        // Execute the insert statement
+        // First check if receiptId is valid: it must be an existing order, otherwise: no db action + notify user
+        $stmt = $connection->prepare("SELECT * FROM i_order WHERE receiptId = '$receiptId'");
         $stmt->execute();
-          
-        if($stmt->error) {       
-          printf("<b>Error: %s.</b>\n", $stmt->error);
+        $results = $stmt->get_result();
+
+        $row = $results->fetch_assoc();
+        $rcpt = $row['receiptId'];
+
+        echo "the result is '$rcpt'";
+
+        if (! $rcpt) {
+          echo "Hey, that is not an existing order. You can't update an order that doesn't exist. Try again.";
         } else {
-          echo "<b>Successfully processed the order ".$receiptId." with expected delivery date ".$expectedDate."</b>";
+          $stmt = $connection->prepare("UPDATE i_order SET expectedDate = '$expectedDate' WHERE receiptId = '$receiptId'");
+          // Execute the insert statement
+          $stmt->execute();
+
+          if($stmt->error) {
+            printf("<b>Error: %s.</b>\n", $stmt->error);
+          } else {
+            echo "<b>Successfully processed the order ".$receiptId." with expected delivery date ".$expectedDate."</b>";
+          } 
         }
       }
    }
@@ -154,9 +167,9 @@ function formSubmit(receiptId) {
 
 <!--
   /****************************************************
-   STEP 5: Build the form to update stock of an existing item
+   STEP 5: Build the form to show orders and see when we've updated the expected date
    ****************************************************/
-    Use an HTML form POST to update the stock of an item, sending the parameter values back to this page.
+    Use an HTML form POST to update the expected date of an item, sending the parameter values back to this page.
     Avoid Cross-site scripting (XSS) by encoding PHP_SELF using htmlspecialchars.
 
     This is the simplest way to POST values to a web page. More complex ways involve using
