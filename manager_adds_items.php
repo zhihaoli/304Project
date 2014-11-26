@@ -82,13 +82,13 @@ function formSubmit(upc) {
         */
         $upc = $_POST["new_upc"];
         $title = $_POST["new_title"];
-		$item_type = $_POST["new_item_type"];
-		$category = $_POST["new_category"];
+		    $item_type = $_POST["new_item_type"];
+		    $category = $_POST["new_category"];
 
         $company = $_POST["new_company"];
-		$item_year = $_POST["new_item_year"];
-		$price = $_POST["new_price"];
-		$stock = $_POST["new_stock"];
+		    $item_year = $_POST["new_item_year"];
+    		$price = $_POST["new_price"];
+		    $stock = $_POST["new_stock"];
           
         $stmt = $connection->prepare("INSERT INTO item (upc, title, item_type, category, company, item_year, price, stock) VALUES (?,?,?,?,?,?,?,?)");
           
@@ -105,21 +105,29 @@ function formSubmit(upc) {
         }
       } elseif (isset($_POST["submit"]) && $_POST["submit"] ==  "UPDATE") {
        /*
-		Add input quantity to existing stock using post variables upc, qty.
+		    Add input quantity to existing stock using post variables upc, qty.
         */
-		$upc = $_POST["existing_upc"];
-		$qty = $_POST["additional_stock"];
+		    $existing_upc = $_POST["existing_upc"];
+		    $qty = $_POST["additional_stock"];
 
-	// Prepare statement so we don't get haX0r'd.
-	$stmt = $connection->prepare("UPDATE item SET stock = stock + $qty WHERE upc = '$upc'");
+        // Check that this item does exist already
+        $stmt = $connection->prepare("SELECT * FROM item WHERE upc = '$existing_upc'");
+        $stmt->execute();
+        $results = $stmt->get_result();
+        $row = $results->fetch_assoc();
+        $e_upc = $row['upc'];
 
-	//Execute the update statement
-	$stmt->execute();
-
-	if($stmt->error) {
-          printf("<b>Error: %s.</b>\n", $stmt->error);
+        if (! $e_upc) {
+          echo "Item with that UPC does not exist in our inventory. Try retyping, or add new item in above form.";          
         } else {
-          echo "<b>Successfully increased stock for upc: ".$upc."</b>";
+          $stmt = $connection->prepare("UPDATE item SET stock = stock + $qty WHERE upc = '$existing_upc'");
+          //Execute the update statement
+          $stmt->execute();
+          if($stmt->error) {
+            printf("<b>Error: %s.</b>\n", $stmt->error);
+          } else {
+            echo "<b>Successfully increased stock for upc: ".$existing_upc."</b>";
+          }
         }
       }
    }
