@@ -24,9 +24,9 @@
     </tr>
 
     <?php
-    $connection = new mysqli("localhost", "root", "", "store");
+    $connection = new mysqli("localhost:3306", "root", "", "store");
     $max_oneday = 10;
-    $date_format = "m/d/Y";
+    $date_format = "Y-m-d";
         // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
         printf("Connect failed: %s\n", mysqli_connect_error());
@@ -132,9 +132,12 @@
     if(!$amt = $connection->query("SELECT SUM(quantity*price) as total FROM item I, cart C WHERE I.upc = C.upc;")) {
       	echo "ERROR in retrieving total amount";
     }
-    $total = $amt->fetch_assoc()['total'];
-
-    echo "<td><br><b> Total  $".$total."</b></td></tr>";
+    $subtotal = $amt->fetch_assoc()['total'];
+    $tax = 0.10 * $subtotal;
+    $total = $subtotal + $tax;
+    echo "<td><br> Subtotal </td><td> $".$subtotal."</td></tr>";
+    echo "<td><br> Tax(%10) </td><td> $".$tax."</td></tr>";
+    echo "<td><br><b> Total </td><td> $".$total."</b></td></tr>";
     echo "</form>";
 
    	mysqli_close($connection);
