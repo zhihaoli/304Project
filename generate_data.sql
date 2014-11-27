@@ -3,7 +3,7 @@
 -- so uncomment and/or modify the next 2 lines:
 
 -- CREATE database cs304store;
-use cs304;
+use store;
 
 
 drop table if exists item;
@@ -55,7 +55,7 @@ drop table if exists c_return;
 create table c_return
 	(retid char(15) not null,
     return_date varchar(20) null,
-    receiptId char(12) not null);
+    receiptId char(15) not null);
     
 drop table if exists returnItem;
 create table returnItem
