@@ -242,7 +242,7 @@
     <label for="topItemDates">Enter a Date (mm/dd/yyyy)</label>
     <input type="date" name="topItemDates" class="form-control">
     <label for="topItemNumber">Enter the number of top items:</label>
-        <input type="number" name="topItemNumber" class="form-control"><br/>
+        <input type="number" name="topItemNumber" class="form-control" min=0><br/>
 <input type="submit" name="submitTopItems" value="GENERATE" class="btn btn-success">
 </form>
 </div>

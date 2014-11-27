@@ -158,8 +158,9 @@
             if(!$tr = $connection->query("SELECT quantity FROM purchaseItem WHERE upc = '$upc';")){
                 echo "Error occured looking up quantity of purchaseItem";
             } 
-
-            if ($tr->fetch_assoc()['quantity']==0){
+		
+		$tr_row = $tr->fetch_assoc();
+            if ($tr_row['quantity']==0){
 
                 echo "<script> javascript: alert(\"This item of the Purchase has already been previously returned.\");</script>";
               
