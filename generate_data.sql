@@ -29,7 +29,7 @@ create table hasSong
     
 drop table if exists i_order;
 create table i_order
-	(receiptId char(12) not null,
+	(receiptId char(15) not null,
     order_date varchar(20) null,
     cid char(12) not null,
     cardNumber char(16) not null,
@@ -39,7 +39,7 @@ create table i_order
     
 drop table if exists purchaseItem;
 create table purchaseItem
-	(receiptId char(12) not null,
+	(receiptId char(15) not null,
     upc char(12) not null,
     quantity int not null);
     
@@ -53,13 +53,13 @@ create table customer
     
 drop table if exists c_return;
 create table c_return
-	(retid char(12) not null,
+	(retid char(15) not null,
     return_date varchar(20) null,
     receiptId char(12) not null);
     
 drop table if exists returnItem;
 create table returnItem
-	(retid char(12) not null,
+	(retid char(15) not null,
     upc char(12) not null,
     quantity int not null);
 
