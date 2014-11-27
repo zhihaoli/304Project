@@ -36,7 +36,8 @@
 <p></p>
 <p></p>
     <body>
-    <h1>Returns</h1>
+    <h1>Clerk</h1>
+    <h2>Returns</h2>
 
 	<table border=0 cellpadding=0 cellspacing=0>
     <tr valign=center>
@@ -48,8 +49,8 @@
     </tr>
 
    	<?php
-    $connection = new mysqli("localhost", "root", "", "cs304");
-    $date_format = "m/d/Y";
+    $connection = new mysqli("localhost:3306", "root", "", "store");
+    $date_format = "Y-m-d";
         // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
         printf("Connect failed: %s\n", mysqli_connect_error());

@@ -33,7 +33,7 @@ function formSubmit(receiptId) {
      STEP 1: Connect to my local db
      ****************************************************/
     // CHANGE this to connect to your own MySQL instance in the labs or on your own computer
-    $connection = new mysqli("localhost", "root", "", "cs304");
+    $connection = new mysqli("localhost:3306", "root", "", "store");
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
         printf("Connect failed: %s\n", mysqli_connect_error());

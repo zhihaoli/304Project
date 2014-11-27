@@ -20,7 +20,7 @@
           form.upc.value = upc;
           form.item_title.value = title;
           form.stock.value = stock;
-          if (qty != null) {
+          if (qty >0) {
             form.quantity.value = qty;
           }
           // Post this form
@@ -37,6 +37,16 @@
         form.title.value = title;
         // Post this form
         form.submit();
+      }
+    }
+
+    function confirmMsg(stock, title, cart_qty, remain_qty ) {
+      var bool = confirm('There are ' + stock + ' of the item ' + title + ' in stock, and you have already added ' + 
+        cart_qty + ' to your cart. You can only add ' + remain_qty + 
+        ' more of this item to your cart. Would you like to change your quantity to ' + remain_qty + '?');
+      
+      if (bool) {
+        formSubmitSearch(upc, title, stock, remain_qty);
       }
     }
     </script>
@@ -92,7 +102,7 @@
          ****************************************************/
 
         // CHANGE this to connect to your own MySQL instance in the labs or on your own computer
-        $connection = new mysqli("localhost", "root", "", "cs304");
+        $connection = new mysqli("localhost:3306", "root", "", "store");
 
         // Check that the connection was successful, otherwise exit
         if (mysqli_connect_errno()) {
@@ -139,15 +149,11 @@
               $stmt->execute();
             } else {
               $remaining_qty = $a_stock - $cart_qty;
-              $message = "There are ".$a_stock." of the item '".$title."' in stock, 
-              and you have already added ".$cart_qty." to your cart. You can only add ".$remaining_qty." more 
-              of this item to your cart. Would you like to change your quantity to ".$remaining_qty."?";
+              $message = "There are ".$a_stock." of the item '".$title."' in stock, and you have already added ".$cart_qty." to your cart. You can only add ".$remaining_qty." more of this item to your cart. Would you like to change your quantity to ".$remaining_qty."?";
 
               echo $message;
-              echo "<script>javascript:
-                    if (confirm('".$message."')){
-                      formSubmit('".$upc."', '".$title."', ".$a_stock.", ".$remaining_qty.");
-                    }</script>";
+              echo "<script>javascript: confirmMsg(\"".$a_stock."\", \"".$title."\", \"".$cart_qty."\", \"".$remaining_qty."\");
+            </script>";
             }
 
            } else {
@@ -216,6 +222,7 @@
     // Hidden value is used if the delete link is clicked
     echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
     echo "<input type=\"hidden\" name=\"item_title\" value=\"-1\"/>";
+    echo "<input type=\"hidden\" name=\"qty\" value=\"-1\"/>";
     echo "<input type=\"hidden\" name=\"stock\" value=\"-1\"/>";
    // We need a submit value to detect if delete was pressed 
     echo "<input type=\"hidden\" name=\"submitCart\" value=\"ADD TO SHOPPING CART\"/>";
@@ -238,7 +245,7 @@
                 $i++;
               }
               echo "</select></td><td>";
-              echo "<button><a href=\"javascript:formSubmitSearch('".$row['upc']."', '".$row['title']."', '".$row['stock']."', null);\">ADD TO SHOPPING CART</a></button>";
+              echo "<button><a href=\"javascript:formSubmitSearch('".$row['upc']."', '".$row['title']."', '".$row['stock']."', 0);\">ADD TO SHOPPING CART</a></button>";
               echo "</td></tr>";
             }  
         }

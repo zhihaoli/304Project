@@ -151,6 +151,65 @@
 </body>
 </html>
 
+    <body>
+    <h1>Are you a new Customer?</h1>
+
+    <h2>I am an existing Customer</h2>
+    <button type="button" class="btn" onclick="location.href='customer.php'"> Go to the Store</button>
+
+     <h2>Register New Customer</h2>
+
+
+
+
+    <?php
+        /****************************************************
+         STEP 1: Connect to the bookbiz MySQL database
+         ****************************************************/
+
+        // CHANGE this to connect to your own MySQL instance in the labs or on your own computer
+        $connection = new mysqli("localhost:3306", "root", "", "store");
+
+        // Check that the connection was successful, otherwise exit
+        if (mysqli_connect_errno()) {
+            printf("Connect failed: %s\n", mysqli_connect_error());
+            exit();
+        }
+
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  if (isset($_POST["submit"]) && $_POST["submit"] ==  "REGISTER") {
+
+	
+
+           $stmt = $connection->prepare("INSERT INTO customer (cid, password, name, address, phone) VALUES (?,?,?,?,?)");
+           $cid = $_POST['id_input'];
+           $password = $_POST['password_input'];
+           $name = $_POST['name_input'];
+           $address = $_POST['address_input'];
+	   $phone = $_POST['phone_input'];
+
+       
+           // Bind the title_id parameter, 's' indicates a string value
+           $stmt->bind_param("sssss", $cid, $password, $name, $address, $phone);
+           
+           $stmt->execute();
+           $err = $stmt->error;
+
+           if($stmt->error) {
+              printf("Uh oh! That ID was already chosen, please pick a different one!");
+              }else{
+		 die("$name, you have successfully registered! Click the button above to go to the store!");
+
+		}   
+             
+}
+}
+
+
+?>
+
 
 
 
