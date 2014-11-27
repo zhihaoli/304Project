@@ -150,13 +150,13 @@ values ('0003', 'Hello song 2');
 
 -- Cecile's add item data
 INSERT INTO item
-VALUES ('0004', 'Pug Life', 'DVD', 'Dogudrama',  'CompanyA', 1999, 8.95, 12);
+VALUES ('0004', 'Pug Life', 'DVD', 'New Age',  'CompanyA', 1999, 8.95, 12);
 
 INSERT INTO item
-VALUES ('0005', 'Mug Life', 'DVD', 'Romance',  'CompanyA', 1998, 10.95, 3);
+VALUES ('0005', 'Mug Life', 'DVD', 'Rap',  'CompanyA', 1998, 10.95, 3);
 
 INSERT INTO item
-VALUES ('0006', 'CS 320 In Real Life!', 'DVD', 'RomCom',  'Company Bee', 2010, 13.95, 5);
+VALUES ('0006', 'CS 320 In Real Life!', 'DVD', 'Country',  'Company Bee', 2010, 13.95, 5);
 
 
 -- generate i_order data
