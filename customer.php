@@ -66,7 +66,7 @@
          ****************************************************/
 
         // CHANGE this to connect to your own MySQL instance in the labs or on your own computer
-        $connection = new mysqli("localhost:3306", "root", "", "store");
+        $connection = new mysqli("localhost", "root", "", "cs304");
 
         // Check that the connection was successful, otherwise exit
         if (mysqli_connect_errno()) {
