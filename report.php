@@ -41,7 +41,7 @@
 
 <h1>Daily Sales Report</h1>
 
-<table border=0 cellpadding=10 cellspacing=5>
+<table border=0 cellpadding=10px cellspacing=10px>
 
 <tr valign=center>
 <td class=rowheader>UPC</td>
@@ -102,7 +102,7 @@
 		echo "<td>"."Total $prevCategory Sales"."</td>";
 		echo "<td>".""."</td>";
 		echo "<td>".$accumUnit."</td>";
-       		echo "<td>".$accumCost."</td><td>";
+       		echo "<td>".number_format($accumCost,2,'.','')."</td><td>";
 		echo "</td></tr>";
 
 	//Reset the unit and cost variables for the new category
@@ -114,9 +114,9 @@
 	//Display the query results
        	echo "<td>".$row['upc']."</td>";
        	echo "<td>".$row['category']."</td>";
-	echo "<td>".$row['unit_price']."</td>";
+	echo "<td>".number_format($row['unit_price'],2,'.','')."</td>";
 	echo "<td>".$row['units']."</td>";
-       	echo "<td>".$row['total_value']."</td><td>";
+       	echo "<td>".number_format($row['total_value'], 2,'.','')."</td><td>";
        	echo "</td></tr>";
 	
 	//Update the variables for the next iteration
@@ -131,10 +131,10 @@
 		
 	//Display the last category's totals
 	echo "<td>".""."</td>";
-	echo "<td>"."Total"."</td>";
+	echo "<td>"."Total $prevCategory Sales"."</td>";
 	echo "<td>".""."</td>";
 	echo "<td>".$accumUnit."</td>";
-       	echo "<td>".$accumCost."</td><td>";
+       	echo "<td>".number_format($accumCost,2,'.','')."</td><td>";
 	echo "</td></tr>";
 		
 	//Display the total sales
@@ -142,7 +142,7 @@
 	echo "<td>"."Total Sales on $date"."</td>";
 	echo "<td>".""."</td>";
 	echo "<td>".$totalAccumUnits."</td>";
-       	echo "<td>".$totalAccumCost."</td><td>";
+       	echo "<td>".number_format($totalAccumCost,2,'.','')."</td><td>";
 	echo "</td></tr>";
 
     echo "</form>";
@@ -366,7 +366,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 
 
-<h1>Manage CD and DVD Inventory</h1>
+
 <?php
   $connection = new mysqli("localhost", "root", "", "cs304");
 
@@ -460,7 +460,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 }
 ?>
 
-<h2>Item Titles in alphabetical order</h2>
+<h2>Manage Inventory</h2>
 <!-- Set up a table to view the item titles -->
 <table border=0 cellpadding=0 cellspacing=0>
 <!-- Create the table column headings -->
@@ -517,8 +517,8 @@ $connection = new mysqli("localhost", "root", "", "cs304");
        echo "<td>".$row['category']."</td>";
        echo "<td>".$row['company']."</td>";
        echo "<td>".$row['item_year']."</td>";
-       echo "<td align='right'>".$row['price']."</td>";
-       echo "<td align='right'>".$row['stock']."</td><td>";
+       echo "<td>".number_format($row['price'],2,'.','')."</td>";
+       echo "<td>".$row['stock']."</td><td>";
        
        //Display an option to delete this title using the Javascript function and the hidden title_id
        echo "<a href=\"javascript:formSubmit('".$row['upc']."');\">DELETE</a>";

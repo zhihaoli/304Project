@@ -3,7 +3,7 @@
 -- so uncomment and/or modify the next 2 lines:
 
 -- CREATE database cs304store;
-use cs304store;
+use cs304;
 
 
 drop table if exists item;
@@ -98,11 +98,17 @@ on returnItem (retid);
 -- Tyler's example data
 
 insert into customer
-values('123456789012', 'abc123', 'Test', '123123 fake st', '604-123-4567');
+values('bli23', 'abc123', 'Bruce Li', '123123 Maple st', '604-123-4567');
+
+insert into customer
+values('cleung', 'abc123', 'Cecile Leung', '223123 Birch Ave', '604-223-4567');
+
+insert into customer
+values('mchen', 'abc123', 'Michelle Chen', '323123 Spruce Dr', '604-323-4567');
 
 insert into item
 values('0001', 'Awesome', 'CD', 'Rock',
-'Awesome Recordings', '2014', '11.50', 3);
+'Awesome Recordings', 2014, 11.50, 3);
 
 insert into leadSinger
 values ('0001', 'Jo Awesome');
@@ -118,7 +124,7 @@ values ('0001', 'Awesome song 3');
 
 insert into item
 values('0002', 'GoGo', 'DVD', 'Pop',
-'Awesome Recordings', '2014', '15.50', 4);
+'Awesome Recordings', 2014, 15.50, 4);
 
 insert into leadSinger
 values ('0002', 'GoGo Johnson');
@@ -131,7 +137,7 @@ values ('0002', 'GoGo song 2');
 
 insert into item
 values('0003', 'Hello', 'CD', 'Country',
-'Howdy Music', '2014', '20.00', 10);
+'Howdy Music', 2014, 20.00, 10);
 
 insert into leadSinger
 values ('0003', 'Marian Hello');
@@ -144,32 +150,44 @@ values ('0003', 'Hello song 2');
 
 -- Cecile's add item data
 INSERT INTO item
-VALUES ('upc123456789', 'Pug Life', 'DVD', 'Dogudrama',  'CompanyA', 1999, 8.95, 123);
+VALUES ('0004', 'Pug Life', 'DVD', 'Dogudrama',  'CompanyA', 1999, 8.95, 12);
 
 INSERT INTO item
-VALUES ('upc023456789', 'Mug Life', 'CD', 'Romance',  'CompanyA', 1998, 10.95, 3);
+VALUES ('0005', 'Mug Life', 'DVD', 'Romance',  'CompanyA', 1998, 10.95, 3);
 
 INSERT INTO item
-VALUES ('upc223456789', 'CS 320 AudioTextBook', 'CD', 'RomCom',  'Company Bee', 2010, 3.95, 1);
+VALUES ('0006', 'CS 320 In Real Life!', 'DVD', 'RomCom',  'Company Bee', 2010, 13.95, 5);
 
--- add stock to existing item
-UPDATE item
-SET stock = stock + 2
-WHERE upc = 'upc123456789';
 
 -- generate i_order data
 INSERT INTO i_order
-VALUES ('receiptId012', '05-19-1999', 'cid123456789', 'cardNumber000016', '05-20-2000', null, null);
+VALUES ('P_54768aab8f', '2014-11-28', 'bli23', 'cardNumber000016', '10/17', '2014-11-30', null);
 
 INSERT INTO i_order
-VALUES ('receiptId112', '12-19-1999', 'cid123456789', 'cardNumber000016', '05-21-2000', null, null);
+VALUES ('P_54768aab8g', '2014-11-28', 'cleung', 'cardNumber000016', '10/17', '2014-11-30', null);
 
 INSERT INTO i_order
-VALUES ('0receiptId12', '05-19-1999', 'cid123456780', 'cardNumber111116', '05-20-2013', null, null);
+VALUES ('P_54768aab8h', '2014-11-28', 'mchen', 'cardNumber111116', '10/17','2014-11-30', null);
 
--- Manager processes delivery
--- user inputs: receiptID, expectedDate
-UPDATE i_order
-SET expectedDate = '2014-01-31'
-WHERE receiptId = '0receiptId12';
+INSERT INTO i_order
+VALUES ('P_54768aab8i', '2014-11-28', 'bli23', 'cardNumber111116', '10/17', '2014-11-30', null);
 
+INSERT INTO i_order
+VALUES ('P_54768aab8j', '2014-11-28', 'bli23', 'cardNumber111116', '10/17', '2014-11-30', null);
+
+-- generate purchaseItem data
+
+INSERT INTO purchaseItem
+VALUES ('P_54768aab8f', '0001', 1);
+
+INSERT INTO purchaseItem
+VALUES ('P_54768aab8g', '0001', 3);
+
+INSERT INTO purchaseItem
+VALUES ('P_54768aab8h', '0002', 3);
+
+INSERT INTO purchaseItem
+VALUES ('P_54768aab8i', '0003', 5);
+
+INSERT INTO purchaseItem
+VALUES ('P_54768aab8j', '0005', 2);
