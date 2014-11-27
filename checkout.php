@@ -124,12 +124,12 @@
 	        		}
 
 	        		// update item stock in items table
-	        		if(!$connection->query("UPDATE item SET stock = stock - $item_qty WHERE upc = $item_upc;")) {
+	        		if(!$connection->query("UPDATE item SET stock = stock - $item_qty WHERE upc = '$item_upc';")) {
 						echo "Error updating item '$item_upc' stock in item table";
 	        		}
 
 	        		// delete item from cart
-	        		if(!$connection->query("DELETE FROM cart WHERE upc = $item_upc;")){
+	        		if(!$connection->query("DELETE FROM cart WHERE upc = '$item_upc';")){
 	        			echo "Error delete item '$item_upc' from cart after purchase";
 	        		}
 	        	}
