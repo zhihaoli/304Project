@@ -17,7 +17,6 @@
     function formSubmitSearch(upc, title, stock, qty) {
         'use strict';
           // Set the value of a hidden HTML element in this form
-          window.alert('form submit begin: ' + upc + title + stock + qty);
           var form = document.getElementById('search');
           form.upc.value = upc;
           form.item_title.value = title;
@@ -26,7 +25,6 @@
             form.submitCart.value  = "ADD TO SHOPPING CART";
             form.quantity.value = qty;
           }
-          // Post this form
           form.submit();
         
     }
@@ -44,27 +42,19 @@
     }
 
     function confirmMsg(upc, stock, title, cart_qty, remain_qty ) {
-      window.alert('beginning of confirm');
+
       var bool = confirm('There are ' + stock + ' of the item ' + title + ' in stock, and you have already added ' + 
         cart_qty + ' to your cart. You can only add ' + remain_qty + 
         ' more of this item to your cart. Would you like to change your quantity to ' + remain_qty + '?');
       
       if (bool) {
-        window.alert('before form submit');
           var form = document.getElementById('newval');
-          window.alert('1');
           form.quantity.value = remain_qty;
-          window.alert('2');
           form.item_title.value = title;
-          
-          
           form.upc.value = upc;
           form.stock.value = stock;
-          
-          // Post this form
           form.submit();
         }
-        window.alert('after form submit');
       
     }
     </script>
@@ -207,7 +197,6 @@
             }
 
             $query .= ");"; 
-            echo $query;
 
             if (! $result = $connection->query($query)) {
               die("No results found.");
