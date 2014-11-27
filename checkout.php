@@ -50,7 +50,7 @@
     </tr>
 
     <?php
-    $connection = new mysqli("localhost", "root", "", "store");
+    $connection = new mysqli("localhost:3306", "root", "", "store");
 
 
     $max_oneday = 10;
@@ -69,12 +69,12 @@
       		$expiry = $_POST["expiryDate"];
       		$cid = $_POST["cid"];
 
-      		if(!$cid_check = $connection->query("SELECT count(*) as count from customer where cid = $cid;")) {
-      			echo "<script> javascript: alert(\"Your Customer ID is invalid, please check your ID\");</script>";
+      		if(!$cid_check = $connection->query("SELECT count(*) as count from customer where cid = '$cid';")) {
+      			echo "<script> javascript: alert(\"Your Customer ID is invalid, please check your ID (1)\");</script>";
       		}
-		$row = $cid_check->fetch_assoc();
+		      $row = $cid_check->fetch_assoc();
       		if($row['count'] == 0) {
-      			echo "<script> javascript: alert(\"Your Customer ID is invalid, please check your ID\");</script>";
+      			echo "<script> javascript: alert(\"Your Customer ID is invalid, please check your ID (2)\");</script>";
       		} else {
 
 	      		// generate unique receiptId (set to FALSE so it generates 13 characters after the prefix)
