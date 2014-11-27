@@ -17,6 +17,7 @@
     function formSubmitSearch(upc, title, stock, qty) {
         'use strict';
           // Set the value of a hidden HTML element in this form
+          window.alert('form submit begin: ' + upc + title + stock + qty);
           var form = document.getElementById('search');
           form.upc.value = upc;
           form.item_title.value = title;
@@ -42,14 +43,29 @@
       }
     }
 
-    function confirmMsg(stock, title, cart_qty, remain_qty ) {
+    function confirmMsg(upc, stock, title, cart_qty, remain_qty ) {
+      window.alert('beginning of confirm');
       var bool = confirm('There are ' + stock + ' of the item ' + title + ' in stock, and you have already added ' + 
         cart_qty + ' to your cart. You can only add ' + remain_qty + 
         ' more of this item to your cart. Would you like to change your quantity to ' + remain_qty + '?');
       
       if (bool) {
-        formSubmitSearch(upc, title, stock, remain_qty);
-      }
+        window.alert('before form submit');
+          var form = document.getElementById('newval');
+          window.alert('1');
+          form.quantity.value = remain_qty;
+          window.alert('2');
+          form.item_title.value = title;
+          
+          
+          form.upc.value = upc;
+          form.stock.value = stock;
+          
+          // Post this form
+          form.submit();
+        }
+        window.alert('after form submit');
+      
     }
     </script>
     </head>
@@ -88,7 +104,7 @@
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-          if (isset($_POST["submitCart"]) && $_POST["submitCart"] == "ADD TO SHOPPING CART") {
+          if (isset($_POST["submitCart"]) && ($_POST["submitCart"] == "ADD TO SHOPPING CART" || $_POST["submitCart"] == "NEW QUANTITY" )) {
            /*
               Delete the selected book title using the title_id
             */
@@ -99,7 +115,7 @@
            $title = $_POST['item_title'];
            $qty = $_POST['quantity'];
            $a_stock = $_POST['stock'];
-           echo "before quantity: $qty";
+
            // Bind the title_id parameter, 's' indicates a string value
            $stmt->bind_param("ssi", $upc, $title, $qty);
            
@@ -107,7 +123,7 @@
            $stmt->execute();
               
            if($stmt->error) {
-              echo "inside duplicate if";
+
               $get_qty="SELECT quantity FROM cart WHERE upc=$upc;";
               if (! $result = $connection->query($get_qty)) {
                 die("Error in fetching cart item quantity.");
@@ -120,16 +136,23 @@
               if ($qty + $cart_qty <= $a_stock){
               $stmt = $connection->prepare("UPDATE cart SET quantity=? WHERE upc=$upc;");
               $new_qty = $qty + $cart_qty;
-              echo "duplicate qty: $qty";
               $stmt->bind_param("i", $new_qty);
               $stmt->execute();
             } else {
               $remaining_qty = $a_stock - $cart_qty;
               
-              echo "<script>javascript: confirmMsg(\"".$a_stock."\", \"".$title."\", \"".$cart_qty."\", \"".$remaining_qty."\");
-            </script>";
-            }
+              echo "<form id=\"newval\" name=\"newval\" style = \"display:none\" action=\"";
+              echo htmlspecialchars($_SERVER["PHP_SELF"]);
+              echo "\" method=\"POST\">";
+              echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
+              echo "<input type=\"hidden\" name=\"item_title\" value=\"-1\"/>";
+              echo "<input type=\"hidden\" name=\"quantity\" value=\"-1\"/>";
+              echo "<input type=\"hidden\" name=\"stock\" value=\"-1\"/>";
+              echo "<input type=\"hidden\" name=\"submitCart\" value=\"NEW QUANTITY\"/>";
 
+              echo "<a href=\"javascript: confirmMsg('".$upc."', '".$a_stock."', '".$title."', '".$cart_qty."', '".$remaining_qty."');\">ERROR: Click here for more details.</a>";
+              echo "</form>";
+            }
            } else {
              echo "<b>Successfully added ".$qty. " of ".$title." to your cart</b>";
            }
@@ -190,15 +213,13 @@
               die("No results found.");
             }
 
-                echo "<form id=\"search\" name=\"search\" action=\"";
+    echo "<form id=\"search\" name=\"search\" action=\"";
     echo htmlspecialchars($_SERVER["PHP_SELF"]);
     echo "\" method=\"POST\">";
-    // Hidden value is used if the delete link is clicked
     echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
     echo "<input type=\"hidden\" name=\"item_title\" value=\"-1\"/>";
     echo "<input type=\"hidden\" name=\"qty\" value=\"-1\"/>";
     echo "<input type=\"hidden\" name=\"stock\" value=\"-1\"/>";
-   // We need a submit value to detect if delete was pressed 
     echo "<input type=\"hidden\" name=\"submitCart\" value=\"ADD TO SHOPPING CART\"/>";
 
             while($row = $result->fetch_assoc()){
