@@ -10,6 +10,32 @@
 
     </head>
 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="HomePage.html">Allegro Music Store</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="clerk.php">Clerk</a></li>
+                    <li><a href="registration.php">Customer</a></li>
+                    <li><a href="report.php">Manager</a></li>
+                    <li><a href="Godmode.html">TA Godmode</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<h1>""<h1>
+<p></p>
+<p></p>
+<p></p>
+
     <body>
     <h1>Check-Out</h1>
 
@@ -24,7 +50,7 @@
     </tr>
 
     <?php
-    $connection = new mysqli("localhost", "root", "", "store");
+    $connection = new mysqli("localhost", "root", "", "cs304");
     $max_oneday = 10;
     $date_format = "m/d/Y";
         // Check that the connection was successful, otherwise exit
@@ -44,8 +70,8 @@
       		if(!$cid_check = $connection->query("SELECT count(*) as count from customer where cid = $cid;")) {
       			echo "<script> javascript: alert(\"Your Customer ID is invalid, please check your ID\");</script>";
       		}
-
-      		if($cid_check->fetch_assoc()['count'] == 0) {
+		$row = $cid_check->fetch_assoc();
+      		if($row['count'] == 0) {
       			echo "<script> javascript: alert(\"Your Customer ID is invalid, please check your ID\");</script>";
       		} else {
 
@@ -56,8 +82,8 @@
 	      		if(!$outstand_q = $connection->query("SELECT count(*) as count from i_order where deliveredDate = null;")) {
 	      			echo "ERROR in retrieving count of outstanding orders";
 	      		}
-
-	      		$outstand_num = $outstand_q->fetch_assoc()['count'];
+			$outstand_q_row = $outstand_q->fetch_assoc();
+	      		$outstand_num = $outstand_q_row['count'];
 	      		// calculating the delivery days using max number of one day delivery and the number of outstanding orders
 	      		$deliver_days = floor($outstand_num/$max_oneday) + 1;
 	      		// todays date
@@ -132,7 +158,8 @@
     if(!$amt = $connection->query("SELECT SUM(quantity*price) as total FROM item I, cart C WHERE I.upc = C.upc;")) {
       	echo "ERROR in retrieving total amount";
     }
-    $total = $amt->fetch_assoc()['total'];
+    $total_row = $amt->fetch_assoc();
+    $total = $total_row['total'];
 
     echo "<td><br><b> Total  $".$total."</b></td></tr>";
     echo "</form>";

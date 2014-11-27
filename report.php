@@ -10,6 +10,35 @@
     <link href="bookbiz.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+
+</head>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="HomePage.html">Allegro Music Store</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="clerk.php">Clerk</a></li>
+                    <li><a href="registration.php">Customer</a></li>
+                    <li><a href="report.php">Manager</a></li>
+                    <li><a href="Godmode.html">TA Godmode</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<h1>""<h1>
+<p></p>
+<p></p>
+<p></p>
+
 <h1>Daily Sales Report</h1>
 
 <table border=0 cellpadding=10 cellspacing=5>
