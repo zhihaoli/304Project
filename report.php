@@ -25,7 +25,7 @@
 
 <?php
     //Connect to MySQL Localhost
-    $connection = new mysqli("localhost:3306", "root", "", "cs304");
+    $connection = new mysqli("localhost", "root", "", "cs304");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -339,7 +339,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 <h1>Manage CD and DVD Inventory</h1>
 <?php
-  $connection = new mysqli("localhost:3306", "root", "", "cs304");
+  $connection = new mysqli("localhost", "root", "", "cs304");
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -450,7 +450,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 <?php
 
-$connection = new mysqli("localhost:3306", "root", "", "cs304");
+$connection = new mysqli("localhost", "root", "", "cs304");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {

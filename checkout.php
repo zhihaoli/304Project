@@ -6,6 +6,7 @@
     <title>Check-Out</title>
 
         <link href="bookbiz.css" rel="stylesheet" type="text/css">
+ <link href="css/bootstrap.min.css" rel="stylesheet">
 
     </head>
 
@@ -23,7 +24,7 @@
     </tr>
 
     <?php
-    $connection = new mysqli("localhost:3306", "root", "", "store");
+    $connection = new mysqli("localhost", "root", "", "store");
     $max_oneday = 10;
     $date_format = "m/d/Y";
         // Check that the connection was successful, otherwise exit

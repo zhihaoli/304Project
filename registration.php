@@ -8,6 +8,7 @@
         A simple stylesheet is provided so you can modify colours, fonts, etc.
     -->
         <link href="bookbiz.css" rel="stylesheet" type="text/css">
+ <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!--
         Javascript to submit a title_id as a POST form, used with the "delete" links
@@ -59,7 +60,7 @@
          ****************************************************/
 
         // CHANGE this to connect to your own MySQL instance in the labs or on your own computer
-        $connection = new mysqli("localhost:3306", "root", "", "cs304");
+        $connection = new mysqli("localhost", "root", "", "cs304");
 
         // Check that the connection was successful, otherwise exit
         if (mysqli_connect_errno()) {

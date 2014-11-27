@@ -8,6 +8,7 @@
         A simple stylesheet is provided so you can modify colours, fonts, etc.
     -->
         <link href="bookbiz.css" rel="stylesheet" type="text/css">
+ <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!--
         Javascript to submit a title_id as a POST form, used with the "delete" links
