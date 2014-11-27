@@ -152,7 +152,7 @@
        	echo "<td>".$row['title']."</td>";
        	echo "<td>".$row['item_type']."</td>";
        	echo "<td>".$row['quantity']."</td>";
-       	echo "<td>$".$row['price']."</td><td>";
+       	echo "<td>$".number_format($row['price'],2,'.','')."</td><td>";
        
        //Display an option to delete this title using the Javascript function and the hidden title_id
        	echo "</td></tr>";
@@ -170,9 +170,9 @@
     echo "</form>";
     echo "</tbody>";
     echo "</table>";
-    echo "<label> Subtotal: $".$subtotal."</label><br/>";
-    echo "<label> Tax(10%): $".$tax."</label><br/>";
-    echo "<label> Total: $".$total."</label><br/>";
+    echo "<label> Subtotal: $".number_format($subtotal,2,'.','')."</label><br/>";
+    echo "<label> Tax(10%): $".number_format($tax,2,'.','')."</label><br/>";
+    echo "<label> Total: $".number_format($total,2,'.','')."</label><br/>";
    	mysqli_close($connection);
     ?>
 <br>
