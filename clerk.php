@@ -41,7 +41,7 @@
 
 
   <div class="col-md-12">
-    <h1>Returns</h1>
+    <h1>Previous Returns</h1>
     <?php
     $connection = new mysqli("localhost:3306", "root", "", "store");
     $date_format = "m/d/Y";
