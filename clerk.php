@@ -1,29 +1,49 @@
 <html>
     <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
+      <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+      <meta content="utf-8" http-equiv="encoding">
 
-    <title>Clerk</title>
+      <title>Clerk</title>
 
-        <link href="bookbiz.css" rel="stylesheet" type="text/css">
-
+      <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+      <link href="css/Registration.css" rel="stylesheet" type="text/css">
     </head>
 
-    <body>
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="HomePage.html">Allegro Music Store</a>
+          </div>
+          <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                  <li><a href="clerk.php">Clerk</a></li>
+                  <li><a href="registration.php">Customer</a></li>
+                  <li><a href="report.php">Manager</a></li>
+                  <li><a href="Godmode.html">TA Godmode</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+      <div class="container">
+        <div class="panel panel-body">
+            <div class="starter-template">
+                <h1>Clerk</h1>
+                <p class="lead">You go girl, you process those returns!<br />
+                </p>
+            </div>
+
+
+  <div class="col-md-12">
     <h1>Returns</h1>
-
-  <table border=0 cellpadding=0 cellspacing=0>
-    <tr valign=center>
-    <td class=rowheader>Return ID</td>
-    <td class=rowheader>UPC</td>
-    <td class=rowheader>Title</td>
-    <td class=rowheader>Type</td>
-    <td class=rowheader>Return Date</td>
-    <td class=rowheader>Quantity</td>
-    </tr>
-
     <?php
-    $connection = new mysqli("localhost:3306", "root", "", "store");
+    $connection = new mysqli("localhost", "root", "", "cs304");
     $date_format = "m/d/Y";
         // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -38,6 +58,18 @@
     /****************************************************
      Display the list of Returns
      ****************************************************/
+        echo "<table class=\"table table-striped\">";
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th>Return ID</th>";
+        echo "<th>UPC</th>";
+        echo "<th>Title</th>";
+        echo "<th>Type</th>";
+        echo "<th>Return Date</th>";
+        echo "<th>Quantity</th>";
+        echo "</tr>";
+        echo "</thead>";
+        echo "<tbody>";
 
     while($row = $result->fetch_assoc()){
        
@@ -50,28 +82,31 @@
        echo "</td></tr>";
         
     }
-
-
+    echo "</tbody>";
+    echo "</table>";
     ?>
-</table>
-
+<div class="col-md-3">
 <form id="search" name="search" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <table border=0 cellpadding=0 cellspacing=10px>
-      <tr><td>Receipt ID </td><td><input type="text" size=30 name="rptid"</td></tr>
-        <tr><td></td><td><input type="submit" name="search" border=0 value="SEARCH"></td></tr>
-    </table>
+      <label for="rptid">Receipt ID</label>
+      <input type="text" name="rptid" class="form-control"><br/>
+      <input type="submit" name="search" border=0 value="SEARCH" class="btn btn-success">
 </form>
+</div>
+</div>
 
+<div class="col-md-12">
     <h2>Receipt Search Results</h2>
 <!--  <form id="return" name="return" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> -->
-    <table border=0 cellpadding=0 cellspacing=0>
-    <tr valign=center>
-    <td class=rowheader>Receipt ID</td>
-    <td class=rowheader>UPC</td>
-    <td class=rowheader>Card Number</td>
-    <td class=rowheader>Order Date</td>
-    <td class=rowheader>Quantity</td>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+    <th>Receipt ID</th>
+    <th>UPC</th>
+    <th>Card Number</th>
+    <th>Order Date</th>
+    <th>Quantity</th>
     </tr>
+    </thead>
   <?php
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -168,6 +203,10 @@
             
     ?>
 </table>
+</div>
+
+</div>
+</div>
 <!-- </form> -->
 <!-- </div> -->
 <script>
