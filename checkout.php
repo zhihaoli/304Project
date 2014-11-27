@@ -48,9 +48,8 @@
       			echo "<script> javascript: alert(\"Your Customer ID is invalid, please check your ID\");</script>";
       		} else {
 
-	      		// generate unique receiptId
+	      		// generate unique receiptId (set to FALSE so it generates 13 characters after the prefix)
 	      		$rid = uniqid('P_', FALSE);
-	      		echo $rid;
 
 	      		// retrieve number of orders not yet delivered
 	      		if(!$outstand_q = $connection->query("SELECT count(*) as count from i_order where deliveredDate = null;")) {
@@ -59,7 +58,7 @@
 
 	      		$outstand_num = $outstand_q->fetch_assoc()['count'];
 	      		// calculating the delivery days using max number of one day delivery and the number of outstanding orders
-	      		$deliver_days = floor($outstand_num/$max_oneday);
+	      		$deliver_days = floor($outstand_num/$max_oneday) + 1;
 	      		// todays date
 	      		$order_date = date($date_format);
 	      		// adding the delivery days to todays date to get expected delivery date
@@ -85,6 +84,7 @@
 	        	while($item= $cart->fetch_assoc()){
 	        		$item_upc = $item['upc'];
 	        		$item_qty = $item['quantity'];
+
 	        		// add item from cart to purchaseItem
 	        		$tee = $connection->prepare("INSERT INTO purchaseItem (receiptId, upc, quantity) VALUES (?,?,?);");
 	        		$tee->bind_param("ssi", $rid, $item_upc, $item_qty);
@@ -112,14 +112,6 @@
     if (!$result = $connection->query("SELECT I.upc, I.title, item_type, quantity*price as price, quantity FROM item I, cart C WHERE I.upc = C.upc ORDER BY title;")){
        	die('There was an error running the query [' . $db->error . ']');
     }
-
-    echo "<form id=\"order\" name=\"order\" action=\"";
-    echo htmlspecialchars($_SERVER["PHP_SELF"]);
-    echo "\" method=\"POST\">";
-    echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
-    echo "<input type=\"hidden\" name=\"title\" value=\"-1\"/>";
-    echo "<input type=\"hidden\" name=\"submitDelete\" value=\"REMOVE ITEM\"/>";
-
 
     /****************************************************
      Display the bill
@@ -197,5 +189,5 @@ function validateForm() {
 	}
 }
 </script>
-  </body>
+</body>
 </html>
