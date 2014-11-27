@@ -43,7 +43,7 @@
   <div class="col-md-12">
     <h1>Returns</h1>
     <?php
-    $connection = new mysqli("localhost", "root", "", "cs304");
+    $connection = new mysqli("localhost:3306", "root", "", "store");
     $date_format = "m/d/Y";
         // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -187,7 +187,7 @@
                 die("Error inserting item into returnItem table: ".$rItem_stmt->error);
               }
 
-              if(!$connection->query("UPDATE purchaseItem SET quantity = 0 WHERE upc = $upc")){
+              if(!$connection->query("UPDATE purchaseItem SET quantity = 0 WHERE upc = '$upc';")){
                 echo "Error occured updating purchaseItem to set quantity of $upc to 0";
               }
 

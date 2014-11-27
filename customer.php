@@ -114,7 +114,7 @@
               
            if($stmt->error) {
 
-              $get_qty="SELECT quantity FROM cart WHERE upc=$upc;";
+              $get_qty="SELECT quantity FROM cart WHERE upc='$upc';";
               if (! $result = $connection->query($get_qty)) {
                 die("Error in fetching cart item quantity.");
               }   
