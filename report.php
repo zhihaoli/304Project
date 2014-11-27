@@ -7,12 +7,12 @@
 <!--
    This is Bruce's Code. It contains the PHP/mySQL Queries for Daily Sales Report and Top Selling Items
 -->
-    <link href="bookbiz.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="css/Registration.css" rel="stylesheet" type="text/css">
 
 </head>
 
+<body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -34,27 +34,23 @@
             </div>
         </div>
     </nav>
-<h1>""<h1>
-<p></p>
-<p></p>
-<p></p>
-
-<h1>Daily Sales Report</h1>
-
-<table border=0 cellpadding=10px cellspacing=10px>
-
-<tr valign=center>
-<td class=rowheader>UPC</td>
-<td class=rowheader>Category</td>
-<td class=rowheader>Unit Price</td>
-<td class=rowheader>Units</td>
-<td class=rowheader>Total Value</td>
-</tr>
+    <div class="container">
+        <div class="panel panel-body">
+            <div class="starter-template">
+                <h1>Manager Settings</h1>
+                <p class="lead">Select a report to generate.</p>
+            </div>
 
 
+
+
+
+<!-- **************************DAILY SALES REPORT************************** -->
+<div class="col-md-12">
+<h2>Daily Sales Report</h2>
 <?php
     //Connect to MySQL Localhost
-    $connection = new mysqli("localhost", "root", "", "store");
+    $connection = new mysqli("localhost", "root", "", "cs304");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -91,7 +87,18 @@
 	$totalAccumUnits = 0;
 	$totalAccumCost = 0;
 
-	
+	echo "<table class=\"table table-striped\">";
+  echo "<thead>";
+  echo "<tr>";
+  echo "<th>UPC</th>";
+  echo "<th>Category</th>";
+  echo "<th>Unit Price</th>";
+  echo "<th>Units</th>";
+  echo "<th>Total Value</th>";
+  echo "</tr>"; 
+  echo "</thead>";
+  echo "<tbody>";
+
  	while($row = $result->fetch_assoc()){       
 	
 	//If the category changes and its not the first category, add a row with the total unit and values
@@ -150,29 +157,31 @@
    mysqli_close($connection);     
     	  }
 	}
+  echo "</tbody>";
+  echo "</table>";
 ?>
-</table>
 
 
+<div class="col-md-3">
 <form id="enterDate" name="enterDate" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <table border=0 cellpadding=0 cellspacing=0>
-  <tr><td>Enter a Date (mm/dd/yyyy)</td><td><input type="date" size=10 name="date_daily_sales"</td></tr>
-<tr><td></td><td><input type="submit" name="submitDate" border=0 value="GENERATE"></td></tr>
-    </table>
+  <label for="date_daily_sales">Enter a Date (mm/dd/yyyy)</label>
+  <input type="date" class="form-control" name="date_daily_sales"><br/>
+  <input type="submit" class="btn btn-success" name="submitDate" value="GENERATE">
 </form>
+</div>
+</div>
 
 
-<h1>Top Selling Items</h1>
-<!-- Set up a table to view the book titles -->
-<table border=0 cellpadding=10 cellspacing=5>
-<!-- Create the table column headings -->
 
-<tr valign=center>
-<td class=rowheader>Title</td>
-<td class=rowheader>Company</td>
-<td class=rowheader>Stock</td>
-<td class=rowheader>Quantity</td>
-</tr>
+
+
+
+
+
+
+<!-- **************************TOP SELLING ITEMS************************** -->
+<div class="col-md-12">
+<h2>Top Selling Items</h2>
 
 <?php
 
@@ -200,6 +209,17 @@
               die("No results found.");
             }	
 
+  echo "<table class=\"table table-striped\">";
+  echo "<thead>";
+  echo "<tr>";
+  echo "<th>Title</th>";
+  echo "<th>Company</th>";
+  echo "<th>Stock</th>";
+  echo "<th>Quantity</th>";
+  echo "</tr>";
+  echo "</thead>";
+  echo "<tbody>";
+
 	//Display the results of the query in the table
  	while($row = $result->fetch_assoc()){      
 
@@ -213,17 +233,20 @@
  	   	
 	}
 }
-
+  echo "</tbody>";
+  echo "</table>";
 ?>
-</table>
 
+<div class="col-md-3">
 <form id="enterDate" name="enterDate" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <table border=0 cellpadding=0 cellspacing=0>
-        <tr><td>Enter a Date (mm/dd/yyyy): </td><td><input type="date" name="topItemDates"</td></tr>
-        <tr><td>Enter the number of top items: </td><td> <input type="number" name="topItemNumber"></td></tr>
-<tr><td></td><td><input type="submit" name="submitTopItems" border=0 value="GENERATE"></td></tr>
-    </table>
+    <label for="topItemDates">Enter a Date (mm/dd/yyyy)</label>
+    <input type="date" name="topItemDates" class="form-control">
+    <label for="topItemNumber">Enter the number of top items:</label>
+        <input type="number" name="topItemNumber" class="form-control" min=0><br/>
+<input type="submit" name="submitTopItems" value="GENERATE" class="btn btn-success">
 </form>
+</div>
+</div>
 
 
 
@@ -232,24 +255,8 @@
 
 
 
-
-
-
+<div class="col-md-12">
 <h2>Orders</h2>
-<!-- Set up a table to view the orders -->
-<table border=0 cellpadding=5 cellspacing=10>
-<!-- Create the table column headings -->
-
-<tr valign=center>
-<td class=rowheader>Receipt ID</td>
-<td class=rowheader>Order Date</td>
-<td class=rowheader>Customer ID</td>
-<td class=rowheader>Card Number</td>
-<td class=rowheader>Card Expiry Date</td>
-<td class=rowheader>Expected Delivery Date</td>
-<td class=rowheader>Delivered On</td>
-
-</tr>
 
 <?php
 
@@ -306,6 +313,20 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
      STEP 4: Display the list of orders
      ****************************************************/
     // Display each item title databaserow as a table row
+
+      echo "<table class=\"table table-striped\">";
+      echo "<thead>";
+      echo "<tr>";
+      echo "<th>Receipt ID</th>";
+      echo "<th>Order Date</th>";
+      echo "<th>Customer ID</th>";
+      echo "<th>Card Number</th>";
+      echo "<th>Card Expiry Date</th>";
+      echo "<th>Expected Delivery Date</th>";
+      echo "<th>Delivered On</th>";
+      echo "</tr>";
+      echo "</thead>";
+      echo "<tbody>";
     while($row = $result->fetch_assoc()){
         
        echo "<td>".$row['receiptId']."</td>";
@@ -317,18 +338,16 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
        echo "<td>".$row['deliveredDate']."</td><td>";
        
        //Display an option to delete this order using the Javascript function and the hidden receiptId
-       echo "<a href=\"javascript:formSubmit('".$row['receiptId']."');\">DELETE</a>";
        echo "</td></tr>";
         
     }
     echo "</form>";
-
+    echo "</tbody>";
+    echo "</table>";
     // Close the connection to the database once we're done with it.
     mysqli_close($connection);
 ?>
-
-</table>
-
+</div>
 
 
 
@@ -342,33 +361,24 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 
 
-
+<div class="col-md-12">
 <h2>Process delivery (i.e. set date of delivery)</h2>
-
-<!--
-  /****************************************************
-   STEP 5: Build the form to update stock of an existing item
-   ****************************************************/
-    Use an HTML form POST to update the stock of an item, sending the parameter values back to this page.
-    Avoid Cross-site scripting (XSS) by encoding PHP_SELF using htmlspecialchars.
-
-    This is the simplest way to POST values to a web page. More complex ways involve using
-    HTML elements other than a submit button (eg. by clicking on the delete link as shown above).
--->
-
+<div class="col-md-3">
 <form id="update" name="updateDate" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table border=0 cellpadding=0 cellspacing=0>
-        <tr><td>Receipt ID</td><td><input type="text" size=30 name="existing_receiptId"</td></tr>
-        <tr><td>Date Delivered</td><td> <input type="date" name="new_deliveredDate"></td></tr>
-        <tr><td></td><td><input type="submit" name="submit" border=0 value="PROCESS"></td></tr>
+        <label for="existing_receiptId">Receipt ID</label>
+        <input type="text" size=30 name="existing_receiptId" class="form-control">
+        <label for="new_deliveredDate">Date Delivered</label>
+        <input type="date" name="new_deliveredDate" class="form-control"><br/>
+        <input type="submit" name="submit" border=0 value="PROCESS" class="btn btn-success">
     </table>
 </form>
-
-
+</div>
+</div>
 
 
 <?php
-  $connection = new mysqli("localhost:3306", "root", "", "store");
+  $connection = new mysqli("localhost:3306", "root", "", "cs304");
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -460,26 +470,12 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 }
 ?>
 
+
+<div class="col-md-12">
 <h2>Manage Inventory</h2>
-<!-- Set up a table to view the item titles -->
-<table border=0 cellpadding=0 cellspacing=0>
-<!-- Create the table column headings -->
-
-<tr valign=center>
-<td class=rowheader>upc</td>
-<td class=rowheader>Title</td>
-<td class=rowheader>CD or DVD?</td>
-<td class=rowheader>Category (genre)</td>
-<td class=rowheader>company</td>
-<td class=rowheader>Year</td>
-<td class=rowheader>Price</td>
-<td class=rowheader>Stock</td>
-
-</tr>
-
 <?php
 
-$connection = new mysqli("localhost:3306", "root", "", "store");
+$connection = new mysqli("localhost:3306", "root", "", "cs304");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -504,7 +500,20 @@ $connection = new mysqli("localhost:3306", "root", "", "store");
    // We need a submit value to detect if delete was pressed 
     echo "<input type=\"hidden\" name=\"submitDelete\" value=\"DELETE\"/>";
 
-
+    echo "<table class=\"table table-striped\">";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>upc</th>";
+    echo "<th>Title</th>";
+    echo "<th>CD or DVD?</th>";
+    echo "<th>Category (genre)</th>";
+    echo "<th>company</th>";
+    echo "<th>Year</th>";
+    echo "<th>Price</th>";
+    echo "<th>Stock</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
     /****************************************************
      STEP 4: Display the list of item titles
      ****************************************************/
@@ -521,21 +530,21 @@ $connection = new mysqli("localhost:3306", "root", "", "store");
        echo "<td>".$row['stock']."</td><td>";
        
        //Display an option to delete this title using the Javascript function and the hidden title_id
-       echo "<a href=\"javascript:formSubmit('".$row['upc']."');\">DELETE</a>";
        echo "</td></tr>";
         
     }
     echo "</form>";
 
+    echo "</tbody>";
+    echo "</table>";
     // Close the connection to the database once we're done with it.
     mysqli_close($connection);
 ?>
-
-</table>
-
+</div>
+<!--
 <h2>Add a New Item</h2>
 
-<!--
+
   /****************************************************
    STEP 5: Build the form to add an item
    ****************************************************/
@@ -565,6 +574,7 @@ $connection = new mysqli("localhost:3306", "root", "", "store");
 </form>
 -->
 
+<div class="col-md-12">
 <h2>Update stock for an existing Item</h2>
 
 <!--
@@ -577,17 +587,22 @@ $connection = new mysqli("localhost:3306", "root", "", "store");
     This is the simplest way to POST values to a web page. More complex ways involve using
     HTML elements other than a submit button (eg. by clicking on the delete link as shown above).
 -->
-
+<div class="col-md-3">
 <form id="update" name="update" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <table border=0 cellpadding=0 cellspacing=0>
-        <tr><td>item UPC</td><td><input type="text" size=20 name="existing_upc"</td></tr>
-        <tr><td>Quantity to Add</td><td> <input type="number" size=5 name="additional_stock"></td>
-	<tr><td>Update Price (optional)</td><td> <input type="value" size=5 name="update_price"></td>
-        <td></td><td><input type="submit" name="submit" border=0 value="Add stock"></td></tr>
-    </table>
+        <label for="existing_upc">Item UPC</label>
+        <input type="text" size=20 name="existing_upc" class="form-control">
+        <label for="additional_stock">Quantity to Add</label>
+        <input type="number" size=5 name="additional_stock" class="form-control">
+	      <label for="update_price">Update Price (optional)</label>
+        <input type="value" size=5 name="update_price" class="form-control"> <br/>
+        <input type="submit" name="submit" value="Add stock" class="btn btn-success">
 </form>
+</div>
+</div>
 
 
 
+</div>
+</div>
 </body>
 </html>
