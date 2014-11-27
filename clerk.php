@@ -155,14 +155,14 @@
             $interval = $datetime1->diff($datetime2);
             $date_diff = $interval->format('%a');
 
-            if(!$tr = $connection->query("SELECT quantity FROM purchaseItem WHERE upc = '$upc';")){
+            if(!$tr= $connection->query("SELECT quantity FROM purchaseItem WHERE receiptId='$receiptId' AND upc = '$upc';")){
                 echo "Error occured looking up quantity of purchaseItem";
             } 
-		
-		$tr_row = $tr->fetch_assoc();
-            if ($tr_row['quantity']==0){
+		        $tr_row = $tr->fetch_assoc();
 
-                echo "<script> javascript: alert(\"This item of the Purchase has already been previously returned.\");</script>";
+            if ($tr_row['quantity']<=0){
+
+              echo "<script> javascript: alert(\"This item of the Purchase has already been previously returned.\");</script>";
               
             } elseif ($date_diff > 15) {
               echo "<script> javascript: alert(\"This purchase was made more than 15 days ago and can no longer be returned for refund.\");</script>";
@@ -187,7 +187,7 @@
                 die("Error inserting item into returnItem table: ".$rItem_stmt->error);
               }
 
-              if(!$connection->query("UPDATE purchaseItem SET quantity = 0 WHERE upc = '$upc';")){
+              if(!$connection->query("UPDATE purchaseItem SET quantity = 0 WHERE upc = '$upc' AND receiptId = '$receiptId';")){
                 echo "Error occured updating purchaseItem to set quantity of $upc to 0";
               }
 
