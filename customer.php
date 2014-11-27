@@ -9,6 +9,7 @@
     -->
         <link href="bookbiz.css" rel="stylesheet" type="text/css">
  <link href="css/bootstrap.min.css" rel="stylesheet">
+
     <!--
         Javascript to submit a title_id as a POST form, used with the "delete" links
     -->
@@ -51,32 +52,6 @@
     }
     </script>
     </head>
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="HomePage.html">Allegro Music Store</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="clerk.php">Clerk</a></li>
-                    <li><a href="registration.php">Customer</a></li>
-                    <li><a href="report.php">Manager</a></li>
-                    <li><a href="Godmode.html">TA Godmode</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-<h1>""<h1>
-<p></p>
-<p></p>
-<p></p>
 
     <body>
     <h1>Manage Book Inventory</h1>
@@ -149,9 +124,7 @@
               $stmt->execute();
             } else {
               $remaining_qty = $a_stock - $cart_qty;
-              $message = "There are ".$a_stock." of the item '".$title."' in stock, and you have already added ".$cart_qty." to your cart. You can only add ".$remaining_qty." more of this item to your cart. Would you like to change your quantity to ".$remaining_qty."?";
-
-              echo $message;
+              
               echo "<script>javascript: confirmMsg(\"".$a_stock."\", \"".$title."\", \"".$cart_qty."\", \"".$remaining_qty."\");
             </script>";
             }
@@ -263,7 +236,14 @@
     <form id="search" name="search" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <table border=0 cellpadding=0 cellspacing=0>
       <tr><td>Title</td><td><input type="text" size=30 name="title_input"</td></tr>
-            <tr><td>Category</td><td><input type="text" size=30 name="category_input"</td></tr>
+            <tr><td>Category</td><td><select name="category_input"><option value="" selected="selected"></option>
+              <option value="Classical">Classical</option>
+              <option value="Country">Country</option>
+              <option value="Instrumental">Instrumental</option>
+              <option value="New Age">New Age</option>
+              <option value="Pop">Pop</option>
+              <option value="Rap">Rap</option>
+              <option value="Rock">Rock</option></select></td></tr>
             <tr><td>Lead Singer</td><td> <input type="text" size=30 name="leadSinger_input"></td></tr>
             <tr><td></td><td><input type="submit" name="submitSearch" border=0 value="SEARCH"></td></tr>
         </table>
