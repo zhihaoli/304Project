@@ -257,10 +257,10 @@
 
 if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {       
        /*
-        Process delivery by updating delivery item using the post vars expectedDate and receiptId
+        Process delivery by updating delivery item using the post vars deliveredDate and receiptId
         */
         $receiptId = $_POST["existing_receiptId"];
-        $expectedDate = $_POST["new_expectedDate"];
+        $deliveredDate = $_POST["new_deliveredDate"];
 
          // First check if receiptId is valid: it must be an existing order, otherwise: no db action + notify user
         $stmt = $connection->prepare("SELECT * FROM i_order WHERE receiptId = '$receiptId'");
@@ -275,14 +275,14 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
         if (! $rcpt) {
           echo "Hey, that is not an existing order. You can't update an order that doesn't exist. Try again.";
         } else {
-          $stmt = $connection->prepare("UPDATE i_order SET expectedDate = '$expectedDate' WHERE receiptId = '$receiptId'");
+          $stmt = $connection->prepare("UPDATE i_order SET deliveredDate = '$deliveredDate' WHERE receiptId = '$receiptId'");
           // Execute the insert statement
           $stmt->execute();
 
           if($stmt->error) {
             printf("<b>Error: %s.</b>\n", $stmt->error);
           } else {
-            echo "<b>Successfully processed the order ".$receiptId." with expected delivery date ".$expectedDate."</b>";
+            echo "<b>Successfully processed the order ".$receiptId." with delivered delivery date ".$deliveredDate."</b>";
           } 
         }
       }
@@ -343,7 +343,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 
 
-<h2>Process delivery (i.e. update expected date of delivery)</h2>
+<h2>Process delivery (i.e. set date of delivery)</h2>
 
 <!--
   /****************************************************
@@ -359,7 +359,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 <form id="update" name="updateDate" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table border=0 cellpadding=0 cellspacing=0>
         <tr><td>Receipt ID</td><td><input type="text" size=30 name="existing_receiptId"</td></tr>
-        <tr><td>Expected Delivery Date</td><td> <input type="date" name="new_expectedDate"></td></tr>
+        <tr><td>Date Delivered</td><td> <input type="date" name="new_deliveredDate"></td></tr>
         <tr><td></td><td><input type="submit" name="submit" border=0 value="PROCESS"></td></tr>
     </table>
 </form>
