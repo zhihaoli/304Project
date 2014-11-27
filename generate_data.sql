@@ -63,6 +63,12 @@ create table returnItem
     upc char(12) not null,
     quantity int not null);
 
+drop table if exists cart;
+create table cart
+    (upc char(12) not null,
+    title varchar(30),
+    quantity int not null);
+
 
 -- declaring the keys
 
