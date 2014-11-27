@@ -5,8 +5,8 @@
 
     <title>Check-Out</title>
 
-        <link href="bookbiz.css" rel="stylesheet" type="text/css">
- <link href="css/bootstrap.min.css" rel="stylesheet">
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+   <link href="css/registration.css" rel="stylesheet" type="text/css">
 
     </head>
 
@@ -31,26 +31,18 @@
             </div>
         </div>
     </nav>
-<h1>""<h1>
-<p></p>
-<p></p>
-<p></p>
-
-    <body>
-    <h1>Check-Out</h1>
-
-    <table border=0 cellpadding=0 cellspacing=0>
-
+<body>
+<div class="container">
+        <div class="panel panel-body">
+            <div class="starter-template">
+                <h1>Checkout</h1>
+                <p class="lead">Thanks for shopping with us!<br />
+                </p>
+            </div>
 	<h2>Order</h2>
-    <tr valign=center>
-    <td class=rowheader>Title</td>
-    <td class=rowheader>Type</td>
-    <td class=rowheader>Quantity</td>
-    <td class=rowheader>Price</td>
-    </tr>
 
     <?php
-    $connection = new mysqli("localhost:3306", "root", "", "store");
+    $connection = new mysqli("localhost", "root", "", "cs304");
 
 
     $max_oneday = 10;
@@ -142,6 +134,16 @@
        	die('There was an error running the query [' . $db->error . ']');
     }
 
+    echo "<table class=\"table table-striped\">";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Title</th>";
+    echo "<th>Type</th>";
+    echo "<th>Quantity</th>";
+    echo "<th>Price</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
     /****************************************************
      Display the bill
      ****************************************************/
@@ -164,28 +166,31 @@
     $subtotal = $amt->fetch_assoc()['total'];
     $tax = 0.10 * $subtotal;
     $total = $subtotal + $tax;
-    echo "<td><br> Subtotal </td><td> $".$subtotal."</td></tr>";
-    echo "<td><br> Tax(%10) </td><td> $".$tax."</td></tr>";
-    echo "<td><br><b> Total </td><td> $".$total."</b></td></tr>";
 
     echo "</form>";
-
+    echo "</tbody>";
+    echo "</table>";
+    echo "<label> Subtotal: $".$subtotal."</label><br/>";
+    echo "<label> Tax(10%): $".$tax."</label><br/>";
+    echo "<label> Total: $".$total."</label><br/>";
    	mysqli_close($connection);
     ?>
-  </table>
 <br>
 
 
-
+<div class="col-md-3">
 <form id="paymentform" name="paymentform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validateForm()">
-    <table border=0 cellpadding=0 cellspacing=10px>
-    	<tr><td>Customer ID </td><td><input type="text" size=30 name="cid"</td></tr>
-        <tr><td>Credit Card # </td><td><input type="text" size=30 name="cardNumber"</td></tr>
-        <tr><td>Expiry Date </td><td><input type="text" size=5 name="expiryDate"</td></tr>
-        <tr><td></td><td><input type="submit" name="purchase" border=0 value="PURCHASE"></td></tr>
-    </table>
+    	<label for="cid">Customer ID</label>
+      <input type="text" size=30 name="cid" class="form-control">
+      <label for="cardNumber">Credit Card #</label>
+      <input type="text" size=30 name="cardNumber" class="form-control">
+      <label for="expiryDate">Expiry Date</label>
+      <input type="text" size=5 name="expiryDate" class="form-control"><br/>
+      <input type="submit" name="purchase" value="PURCHASE"  class="btn btn-success">
 </form>
-
+</div>
+</div>
+</div>
 
   <script>
 function formSubmit(upc, title) {

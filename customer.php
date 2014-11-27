@@ -7,8 +7,9 @@
     <!--
         A simple stylesheet is provided so you can modify colours, fonts, etc.
     -->
-        <link href="bookbiz.css" rel="stylesheet" type="text/css">
- <link href="css/bootstrap.min.css" rel="stylesheet">
+        
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/registration.css" rel="stylesheet" type="text/css">
 
     <!--
         Javascript to submit a title_id as a POST form, used with the "delete" links
@@ -61,30 +62,59 @@
     </head>
 
     <body>
-    <h1>Manage Book Inventory</h1>
-    <h2>Search Results</h2>
-    <!-- Set up a table to view the book titles -->
-    <table border=0 cellpadding=0 cellspacing=0>
-    <!-- Create the table column headings -->
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="HomePage.html">Allegro Music Store</a>
+          </div>
+          <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                  <li><a href="clerk.php">Clerk</a></li>
+                  <li class="active"><a href="registration.php">Customer</a></li>
+                  <li><a href="report.php">Manager</a></li>
+                  <li><a href="Godmode.html">TA Godmode</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+    <div class="container">
+        <div class="panel panel-body">
+            <div class="starter-template">
+                <h1>Shop and Search</h1>
+                <p class="lead">IT'S SHOPPING TIME!<br />
+                </p>
+            </div>
+    <form class="form-inline" id="search" name="search" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+      <label for="title_input">Title&nbsp;</label>
+      <input type="text" name="title_input" class="form-control">&nbsp;
+            <label for="category_input">Category</label>
+            <select name="category_input" class="form-control">&nbsp;
+            <option value="" selected="selected"></option>
+              <option value="Classical">Classical</option>
+              <option value="Country">Country</option>
+              <option value="Instrumental">Instrumental</option>
+              <option value="New Age">New Age</option>
+              <option value="Pop">Pop</option>
+              <option value="Rap">Rap</option>
+              <option value="Rock">Rock</option></select>
+        <label for="leadSinger_input">Lead Singer&nbsp;</label>
+        <input type="text" name="leadSinger_input" class="form-control">&nbsp;
+        <input type="submit" name="submitSearch" value="SEARCH" class="btn btn-success">
+    </form>
 
-    <tr valign=center>
-    <td class=rowheader>Title</td>
-    <td class=rowheader>Lead Singer</td>
-    <td class=rowheader>Type</td>
-    <td class=rowheader>Category</td>
-    <td class=rowheader>Company</td>
-    <td class=rowheader>Year</td>
-    <td class=rowheader>Available Stock</td>
-    <td class=rowheader>Price</td>
-    <td class=rowheader>Quantity</td>
-    </tr>
     <?php
         /****************************************************
          STEP 1: Connect to the bookbiz MySQL database
          ****************************************************/
 
         // CHANGE this to connect to your own MySQL instance in the labs or on your own computer
-        $connection = new mysqli("localhost:3306", "root", "", "store");
+        $connection = new mysqli("localhost:3306", "root", "", "cs304");
 
         // Check that the connection was successful, otherwise exit
         if (mysqli_connect_errno()) {
@@ -211,6 +241,23 @@
     echo "<input type=\"hidden\" name=\"stock\" value=\"-1\"/>";
     echo "<input type=\"hidden\" name=\"submitCart\" value=\"ADD TO SHOPPING CART\"/>";
 
+    echo "<h2>Search Results</h2>";
+    echo "<table class=\"table table-striped\">";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Title</th>";
+    echo "<th>Lead Singer</th>";
+    echo "<th>Type</th>";
+    echo "<th>Category</th>";
+    echo "<th>Company</th>";
+    echo "<th>Year</th>";
+    echo "<th>Available Stock</th>";
+    echo "<th>Price</th>";
+    echo "<th>Quantity</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
             while($row = $result->fetch_assoc()){
               
               echo "<td>".$row['title']."</td>";
@@ -229,48 +276,20 @@
                 $i++;
               }
               echo "</select></td><td>";
-              echo "<button name=\"add to cart\"><a href=\"javascript:formSubmitSearch('".$row['upc']."', '".$row['title']."', '".$row['stock']."', 0);\">ADD TO SHOPPING CART</a></button>";
+              echo "<button name=\"add to cart\" class=\"btn btn-default\"><a href=\"javascript:formSubmitSearch('".$row['upc']."', '".$row['title']."', '".$row['stock']."', 0);\">ADD TO SHOPPING CART</a></button>";
               echo "</td></tr>";
             }  
         }
             echo "</form>";
 
     // Close the connection to the database once we're done with it.
- 
+    echo "</tbody>";
+    echo "</table>";
        }
     ?>
 
-    </table>
-
-    <h2>SEARCH</h2>
-
-    <form id="search" name="search" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-        <table border=0 cellpadding=0 cellspacing=0>
-      <tr><td>Title</td><td><input type="text" size=30 name="title_input"</td></tr>
-            <tr><td>Category</td><td><select name="category_input"><option value="" selected="selected"></option>
-              <option value="Classical">Classical</option>
-              <option value="Country">Country</option>
-              <option value="Instrumental">Instrumental</option>
-              <option value="New Age">New Age</option>
-              <option value="Pop">Pop</option>
-              <option value="Rap">Rap</option>
-              <option value="Rock">Rock</option></select></td></tr>
-            <tr><td>Lead Singer</td><td> <input type="text" size=30 name="leadSinger_input"></td></tr>
-            <tr><td></td><td><input type="submit" name="submitSearch" border=0 value="SEARCH"></td></tr>
-        </table>
-    </form>
-
     <h2>Your Shopping Cart</h2>
-    <!-- Set up a table to view the book titles -->
-    <table border=0 cellpadding=0 cellspacing=0>
-    <!-- Create the table column headings -->
 
-    <tr valign=center>
-    <td class=rowheader>Title</td>
-    <td class=rowheader>Type</td>
-    <td class=rowheader>Price</td>
-    <td class=rowheader>Quantity</td>
-    </tr>
     <?php
 
 
@@ -285,6 +304,17 @@
     echo "<input type=\"hidden\" name=\"title\" value=\"-1\"/>";
    // We need a submit value to detect if delete was pressed 
     echo "<input type=\"hidden\" name=\"submitDelete\" value=\"DELETE\"/>";
+
+    echo "<table class=\"table table-striped\">";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<td>Title</th>";
+    echo "<td>Type</th>";
+    echo "<td>Price</th>";
+    echo "<td>Quantity</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
 
     while($row = $result->fetch_assoc()){
         
@@ -301,14 +331,14 @@
     echo "</form>";
        mysqli_close($connection);
 
-
+    echo "</tbody>";
+    echo "</table>";
    ?>
-  </table>
 
   
   <table border=0 cellpadding=0 cellspacing=0>
     
-        <button type="button" class="btn" onclick="location.href='checkout.php'"> Check Out</button>
+        <button type="button" class="btn btn-default" onclick="location.href='checkout.php'"> Check Out</button>
 
 
     
