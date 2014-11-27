@@ -18,7 +18,7 @@
     function formSubmitSearch(upc, title, stock, qty) {
         'use strict';
           // Set the value of a hidden HTML element in this form
-          var form = document.getElementById('search');
+          var form = document.getElementById('searchHidden');
           form.upc.value = upc;
           form.item_title.value = title;
           form.stock.value = stock;
@@ -232,7 +232,7 @@
               die("No results found.");
             }
 
-    echo "<form id=\"search\" name=\"search\" action=\"";
+    echo "<form id=\"searchHidden\" name=\"search\" action=\"";
     echo htmlspecialchars($_SERVER["PHP_SELF"]);
     echo "\" method=\"POST\">";
     echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
