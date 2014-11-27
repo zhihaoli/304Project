@@ -49,7 +49,7 @@
     </tr>
 
    	<?php
-    $connection = new mysqli("localhost:3306", "root", "", "store");
+    $connection = new mysqli("localhost", "root", "", "store");
     $date_format = "Y-m-d";
         // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
