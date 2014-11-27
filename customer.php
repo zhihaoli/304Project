@@ -276,7 +276,7 @@
                 $i++;
               }
               echo "</select></td><td>";
-              echo "<button name=\"add to cart\" class=\"btn btn-default\"><a href=\"javascript:formSubmitSearch('".$row['upc']."', '".$row['title']."', '".$row['stock']."', 0);\">ADD TO SHOPPING CART</a></button>";
+              echo "<button name=\"add to cart\" class=\"btn btn-default\" onclick=\"javascript:formSubmitSearch('".$row['upc']."', '".$row['title']."', '".$row['stock']."', 0);\">ADD TO SHOPPING CART</button>";
               echo "</td></tr>";
             }  
         }
@@ -324,7 +324,7 @@
        echo "<td>".$row['quantity']."</td><td>";
        
        //Display an option to delete this title using the Javascript function and the hidden title_id
-       echo "<button><a href=\"javascript:formSubmitDelete('".$row['upc']."', '".$row['title']."');\">DELETE</a></button>";
+       echo "<button class=\"btn btn-default\" onclick=\"javascript:formSubmitDelete('".$row['upc']."', '".$row['title']."');\">DELETE</button>";
        echo "</td></tr>";
         
     }
