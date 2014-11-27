@@ -10,9 +10,38 @@
     <link href="bookbiz.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+
+</head>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="HomePage.html">Allegro Music Store</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="clerk.php">Clerk</a></li>
+                    <li><a href="registration.php">Customer</a></li>
+                    <li><a href="report.php">Manager</a></li>
+                    <li><a href="Godmode.html">TA Godmode</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<h1>""<h1>
+<p></p>
+<p></p>
+<p></p>
+
 <h1>Daily Sales Report</h1>
 
-<table border=0 cellpadding=10 cellspacing=5>
+<table border=0 cellpadding=10px cellspacing=10px>
 
 <tr valign=center>
 <td class=rowheader>UPC</td>
@@ -73,7 +102,7 @@
 		echo "<td>"."Total $prevCategory Sales"."</td>";
 		echo "<td>".""."</td>";
 		echo "<td>".$accumUnit."</td>";
-       		echo "<td>".$accumCost."</td><td>";
+       		echo "<td>".number_format($accumCost,2,'.','')."</td><td>";
 		echo "</td></tr>";
 
 	//Reset the unit and cost variables for the new category
@@ -85,9 +114,9 @@
 	//Display the query results
        	echo "<td>".$row['upc']."</td>";
        	echo "<td>".$row['category']."</td>";
-	echo "<td>".$row['unit_price']."</td>";
+	echo "<td>".number_format($row['unit_price'],2,'.','')."</td>";
 	echo "<td>".$row['units']."</td>";
-       	echo "<td>".$row['total_value']."</td><td>";
+       	echo "<td>".number_format($row['total_value'], 2,'.','')."</td><td>";
        	echo "</td></tr>";
 	
 	//Update the variables for the next iteration
@@ -102,10 +131,10 @@
 		
 	//Display the last category's totals
 	echo "<td>".""."</td>";
-	echo "<td>"."Total"."</td>";
+	echo "<td>"."Total $prevCategory Sales"."</td>";
 	echo "<td>".""."</td>";
 	echo "<td>".$accumUnit."</td>";
-       	echo "<td>".$accumCost."</td><td>";
+       	echo "<td>".number_format($accumCost,2,'.','')."</td><td>";
 	echo "</td></tr>";
 		
 	//Display the total sales
@@ -113,7 +142,7 @@
 	echo "<td>"."Total Sales on $date"."</td>";
 	echo "<td>".""."</td>";
 	echo "<td>".$totalAccumUnits."</td>";
-       	echo "<td>".$totalAccumCost."</td><td>";
+       	echo "<td>".number_format($totalAccumCost,2,'.','')."</td><td>";
 	echo "</td></tr>";
 
     echo "</form>";
@@ -228,10 +257,10 @@
 
 if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {       
        /*
-        Process delivery by updating delivery item using the post vars expectedDate and receiptId
+        Process delivery by updating delivery item using the post vars deliveredDate and receiptId
         */
         $receiptId = $_POST["existing_receiptId"];
-        $expectedDate = $_POST["new_expectedDate"];
+        $deliveredDate = $_POST["new_deliveredDate"];
 
          // First check if receiptId is valid: it must be an existing order, otherwise: no db action + notify user
         $stmt = $connection->prepare("SELECT * FROM i_order WHERE receiptId = '$receiptId'");
@@ -246,14 +275,14 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
         if (! $rcpt) {
           echo "Hey, that is not an existing order. You can't update an order that doesn't exist. Try again.";
         } else {
-          $stmt = $connection->prepare("UPDATE i_order SET expectedDate = '$expectedDate' WHERE receiptId = '$receiptId'");
+          $stmt = $connection->prepare("UPDATE i_order SET deliveredDate = '$deliveredDate' WHERE receiptId = '$receiptId'");
           // Execute the insert statement
           $stmt->execute();
 
           if($stmt->error) {
             printf("<b>Error: %s.</b>\n", $stmt->error);
           } else {
-            echo "<b>Successfully processed the order ".$receiptId." with expected delivery date ".$expectedDate."</b>";
+            echo "<b>Successfully processed the order ".$receiptId." with delivered delivery date ".$deliveredDate."</b>";
           } 
         }
       }
@@ -314,7 +343,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 
 
 
-<h2>Process delivery (i.e. update expected date of delivery)</h2>
+<h2>Process delivery (i.e. set date of delivery)</h2>
 
 <!--
   /****************************************************
@@ -330,14 +359,14 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 <form id="update" name="updateDate" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table border=0 cellpadding=0 cellspacing=0>
         <tr><td>Receipt ID</td><td><input type="text" size=30 name="existing_receiptId"</td></tr>
-        <tr><td>Expected Delivery Date</td><td> <input type="date" name="new_expectedDate"></td></tr>
+        <tr><td>Date Delivered</td><td> <input type="date" name="new_deliveredDate"></td></tr>
         <tr><td></td><td><input type="submit" name="submit" border=0 value="PROCESS"></td></tr>
     </table>
 </form>
 
 
 
-<h1>Manage CD and DVD Inventory</h1>
+
 <?php
   $connection = new mysqli("localhost", "root", "", "cs304");
 
@@ -431,7 +460,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] ==  "PROCESS") {
 }
 ?>
 
-<h2>Item Titles in alphabetical order</h2>
+<h2>Manage Inventory</h2>
 <!-- Set up a table to view the item titles -->
 <table border=0 cellpadding=0 cellspacing=0>
 <!-- Create the table column headings -->
@@ -488,8 +517,8 @@ $connection = new mysqli("localhost", "root", "", "cs304");
        echo "<td>".$row['category']."</td>";
        echo "<td>".$row['company']."</td>";
        echo "<td>".$row['item_year']."</td>";
-       echo "<td align='right'>".$row['price']."</td>";
-       echo "<td align='right'>".$row['stock']."</td><td>";
+       echo "<td>".number_format($row['price'],2,'.','')."</td>";
+       echo "<td>".$row['stock']."</td><td>";
        
        //Display an option to delete this title using the Javascript function and the hidden title_id
        echo "<a href=\"javascript:formSubmit('".$row['upc']."');\">DELETE</a>";
