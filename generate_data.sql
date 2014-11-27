@@ -152,11 +152,20 @@ values ('0003', 'Hello song 2');
 INSERT INTO item
 VALUES ('0004', 'Pug Life', 'DVD', 'New Age',  'CompanyA', 1999, 8.95, 12);
 
+insert into leadSinger
+values ('0004', 'Aleash-a Keys');
+
 INSERT INTO item
 VALUES ('0005', 'Mug Life', 'DVD', 'Rap',  'CompanyA', 1998, 10.95, 3);
 
+insert into leadSinger
+values ('0005', 'Tim Horton');
+
 INSERT INTO item
 VALUES ('0006', 'CS 320 In Real Life!', 'DVD', 'Country',  'Company Bee', 2010, 13.95, 5);
+
+insert into leadSinger
+values ('0006', 'Patrice Belleville');
 
 
 -- generate i_order data
