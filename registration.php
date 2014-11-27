@@ -59,7 +59,7 @@
          ****************************************************/
 
         // CHANGE this to connect to your own MySQL instance in the labs or on your own computer
-        $connection = new mysqli("localhost", "root", "", "cs304");
+        $connection = new mysqli("localhost:3306", "root", "", "cs304");
 
         // Check that the connection was successful, otherwise exit
         if (mysqli_connect_errno()) {
@@ -86,10 +86,10 @@
            $stmt->bind_param("sssss", $cid, $password, $name, $address, $phone);
            
            $stmt->execute();
-              
+           $err = $stmt->error;
+
            if($stmt->error) {
-               die("Uh oh! there was an error, check all your fields are correct"+ error);
- 
+              printf("Uh oh! That ID was already chosen, please pick a different one!");
               }else{
 		 die("$name, you have successfully registered! Click the button above to go to the store!");
 
