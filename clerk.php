@@ -74,25 +74,23 @@
     </tr>
   <?php
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
-              echo "I'M HEEERRREE";
-          if (isset($_POST["search"]) && $_POST["search"] == "SEARCH") {
-          $rptid = $_POST['rptid'];
-          echo "Where am I?";
-          echo $rptid;
-            if(!$result = $connection->query("SELECT O.receiptId, upc, cardNumber, order_date, quantity FROM i_order O, purchaseItem P WHERE O.receiptId=P.receiptId AND O.receiptId='$rptid';")) {
-              echo "Error in searching in Orders with receipt ID [".$rptid."]";
-            }
 
-        echo "HELLOO";
-        echo "<form id=\"return\" name=\"return\" action=\"";
+        if (isset($_POST["search"]) && $_POST["search"] == "SEARCH") {
+          
+          $rptid = $_POST['rptid'];
+
+          if(!$result = $connection->query("SELECT O.receiptId, upc, cardNumber, order_date, quantity FROM i_order O, purchaseItem P WHERE O.receiptId=P.receiptId AND O.receiptId='$rptid';")) {
+            echo "Error in searching in Orders with receipt ID [".$rptid."]";
+          }
+
+        
+          echo "<form id=\"return\" name=\"return\" action=\"";
           echo htmlspecialchars($_SERVER["PHP_SELF"]);
           echo "\" method=\"POST\">";
-          // Hidden value is used if the delete link is clicked
           echo "<input type=\"hidden\" name=\"receiptId\" value=\"-1\"/>";
           echo "<input type=\"hidden\" name=\"order_date\" value=\"-1\"/>";
           echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
           echo "<input type=\"hidden\" name=\"quantity\" value=\"-1\"/>";
-         // We need a submit value to detect if delete was pressed 
           echo "<input type=\"hidden\" name=\"return\" value=\"RETURN\"/>";
 
           while($row = $result->fetch_assoc()){
@@ -106,53 +104,58 @@
              //Display an option to delete this title using the Javascript function and the hidden title_id
              echo "<button><a href=\"javascript:formSubmit('".$row['receiptId']."', '".$row['upc']."', '".$row['order_date']."', '".$row['quantity']."');\">Return</a></button>";
              echo "</td></tr>";
-              }
+          }
           
           echo "</form>";
-      } elseif (isset($_POST["return"]) && $_POST["return"] == "RETURN") {
-        $receiptId = $_POST['receiptId'];
-        $upc = $_POST['upc'];
-        echo "UPC: ".$upc;
-        $order_date = $_POST['order_date'];
-        $quantity = $_POST['quantity'];
+          } elseif (isset($_POST["return"]) && $_POST["return"] == "RETURN") {
+            $receiptId = $_POST['receiptId'];
+            $upc = $_POST['upc'];
+            $order_date = $_POST['order_date'];
+            $quantity = $_POST['quantity'];
 
-        $today = date($date_format);
+            $today = date($date_format);
 
-        $datetime1 = new Datetime($order_date);
-        $datetime2 = new Datetime($today);
-        $interval = $datetime1->diff($datetime2);
-        $date_diff = $interval->format('%a');
-        echo "INTERVAL".$interval->format('%a');
+            $datetime1 = new Datetime($order_date);
+            $datetime2 = new Datetime($today);
+            $interval = $datetime1->diff($datetime2);
+            $date_diff = $interval->format('%a');
 
-        if ($date_diff > 15) {
-          echo "<script> javascript: alert(\"This purchase was made more than 15 days ago and can no longer be returned for refund.\");</script>";
-        } else {
-          $retid = uniqid("R_", FALSE);
+            if(!$tr = $connection->query("SELECT quantity FROM purchaseItem WHERE upc = '$upc';")){
+                echo "Error occured looking up quantity of purchaseItem";
+            } 
 
-          // insert new return into c_return table
-          $ret_stmt = $connection->prepare("INSERT INTO c_return (retid, return_date, receiptId) VALUES (?,?,?);");
-          $ret_stmt->bind_param("sss", $retid, $today, $receiptId);
-          $ret_stmt->execute();
+            if ($tr->fetch_assoc()['quantity']==0){
 
-          if ($ret_stmt->error) {
-            die("Error inserting new return into c_return table: ".$ret_stmt->error);
-          }
+                echo "<script> javascript: alert(\"This item of the Purchase has already been previously returned.\");</script>";
+              
+            } elseif ($date_diff > 15) {
+              echo "<script> javascript: alert(\"This purchase was made more than 15 days ago and can no longer be returned for refund.\");</script>";
+            } else {
+              $retid = uniqid("R_", FALSE);
 
-          // insert item into returnItem table
-          $rItem_stmt = $connection->prepare("INSERT INTO returnItem (retid, upc, quantity) VALUES (?,?,?);");
-          $rItem_stmt->bind_param("sss", $retid, $upc, $quantity);
-          $rItem_stmt->execute();
+              // insert new return into c_return table
+              $ret_stmt = $connection->prepare("INSERT INTO c_return (retid, return_date, receiptId) VALUES (?,?,?);");
+              $ret_stmt->bind_param("sss", $retid, $today, $receiptId);
+              $ret_stmt->execute();
 
-          if ($rItem_stmt->error) {
-            die("Error inserting item into returnItem table: ".$rItem_stmt->error);
-          }
-          // if (!$connection->query("INSERT INTO returnItem VALUES ($retid, $upc, $quantity);")) {
+              if ($ret_stmt->error) {
+                die("Error inserting new return into c_return table: ".$ret_stmt->error);
+              }
 
-          //   die("Error inserting [$upc] into returnItem table");
+              // insert item into returnItem table
+              $rItem_stmt = $connection->prepare("INSERT INTO returnItem (retid, upc, quantity) VALUES (?,?,?);");
+              $rItem_stmt->bind_param("sss", $retid, $upc, $quantity);
+              $rItem_stmt->execute();
 
-          // }
+              if ($rItem_stmt->error) {
+                die("Error inserting item into returnItem table: ".$rItem_stmt->error);
+              }
 
-          echo "You have successfully returned $quantity of the item with UPC[$upc]. Your Return ID is [$retid]";
+              if(!$connection->query("UPDATE purchaseItem SET quantity = 0 WHERE upc = $upc")){
+                echo "Error occured updating purchaseItem to set quantity of $upc to 0";
+              }
+
+              echo "You have successfully returned $quantity of the item with UPC[$upc]. Your Return ID is [$retid]";
 
         }
 
